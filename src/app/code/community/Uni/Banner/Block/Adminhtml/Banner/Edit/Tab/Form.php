@@ -91,6 +91,17 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
             ),
         ));
 
+
+        $fieldset->addField(
+            'mobile', 'select', array('name'   => 'mobile', 'label' => Mage::helper('banner')->__('Mobile'),
+                                      'title'  => Mage::helper('banner')->__('Mobile'), 'disabled' => false,
+
+                                      'values' => array(array('value' => 1,
+                                                              'label' => Mage::helper('banner')->__('Yes'),),
+                                                        array('value' => 0,
+                                                              'label' => Mage::helper('banner')->__('No'),),),)
+        );
+
         if (Mage::getSingleton('adminhtml/session')->getBannerData()) {
             $form->setValues(Mage::getSingleton('adminhtml/session')->getBannerData());
             Mage::getSingleton('adminhtml/session')->setBannerData(null);
