@@ -1,0 +1,28 @@
+/*#slider{margin: 0 auto; overflow: hidden; margin-bottom: 13px; border: 1px solid #ccc;}*/
+div.scroller .content {padding: 0;}
+div.scroller img{border: none;}
+.content .sliderdescription{background: url(images/grid.gif) repeat left top; color: #222; font: 12px bold ; left: 15px; opacity: 0.5; padding: 10px; position: relative; top: -100px; width: 650px;}
+div.sliderdescription:hover, .sliderdescription.active{background-color: #fff !important;}
+.content a{font: 12px bold; text-decoration: none;}
+.aprev{background: url(images/prev.gif) no-repeat 3px 3px;}
+.anext{background: url(images/next.gif) no-repeat 3px 3px;}
+.astop{background: url(images/stop.gif) no-repeat 3px 3px;}
+.aplay{background: url(images/play.gif) no-repeat 6px 3px;}
+
+/*********************Vertical************************/
+#slider{margin: 0 auto; overflow: hidden; border: 1px solid #ccc;}
+div.scroller{overflow: hidden; border: 1px solid #ccc; position: relative;}
+div.scroller div.section{float: left; overflow: hidden; }
+div.scroller span.content{float:none;}
+div#slider .bannerlinerglider{background: none repeat scroll 0 0 #618499; display: inline; height: 28px; margin-left: 2px; margin-top: -28px; opacity: 0.45; position: absolute; z-index: 999;}
+div#slider .slidercontrol{margin: -28px 0 0; position: relative; z-index: 1000; color: #000000; float: right;}
+div#slider .slidercontrol a{color: #FFFFFF; padding: 4px; text-indent: -1000px; float: left; height: 14px; margin: 5px 2px 0; opacity: 0.6; width: 14px;}
+div#slider .slidercontrol a:hover{opacity: 1;}
+/*********************Horizontal************************/
+div#sliderhori .bannerlinergliderhori{background: none repeat scroll 0 0 #618499; display: inline; height: 28px; margin-left: 2px; margin-top: -28px; opacity: 0.45; position: absolute; z-index: 999;}
+div#sliderhori div.scrollerhori{overflow: hidden; border: 1px solid #ccc; padding:1px; position: relative;}
+div#sliderhori div.scrollerhori .contenthori{width: 1000000px;}
+div#sliderhori div.scrollerhori div.sectionhori{float: left; overflow: hidden; padding-left: 1px;}
+div#sliderhori .slidercontrolhori{margin: -28px 0 0; position: relative; z-index: 1000; color: #000000; float: right;}
+div#sliderhori .slidercontrolhori a{color: #FFFFFF; padding: 4px; text-indent: -1000px; float: left; height: 14px; margin: 5px 2px 0; opacity: 0.6; width: 14px;}
+div#sliderhori .slidercontrolhori a:hover{opacity: 1;}

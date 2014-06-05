@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+ -->
+<layout version="0.1.0">
+    <banner_adminhtml_banner_index>
+        <reference name="content">
+            <block type="banner/adminhtml_banner" name="banner" />
+        </reference>
+    </banner_adminhtml_banner_index>
+    <banner_adminhtml_bannergroup_index>
+        <reference name="content">
+            <block type="banner/adminhtml_bannergroup" name="bannergroup" />
+        </reference>
+    </banner_adminhtml_bannergroup_index>
+    <banner_adminhtml_banner_edit>
+        <update handle="editor"/>
+    </banner_adminhtml_banner_edit>
+</layout>

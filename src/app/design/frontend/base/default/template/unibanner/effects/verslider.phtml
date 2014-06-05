@@ -1,0 +1,85 @@
+<?php
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getSkinUrl('unibanner/css/glider.css') ?>" />
+<!--[if IE ]>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('unibanner/css/opacityother.css') ?>" media="all" />
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('unibanner/css/noieopacity.css') ?>" media="all" />
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/glider.js') ?>"></script>
+<div id="slider" >    
+    <?php
+    $bannerGroupCode = $this->getBannerGroupCode();
+    $data = $this->getDataByGroupCode($bannerGroupCode);
+    $bannerGroupData = $data['group_data'];
+    $mediaDir = Mage::getBaseDir('media');
+    $bannerData = $data['banner_data'];
+    $baneff = $bannerGroupData->getBannerEffects();
+    $prebaneff = $bannerGroupData->getPreBannerEffects();
+    $bannerdest = (($bannerGroupData->getLinkTarget() == 0) ? '_blank' : '_self');
+    $bannerType = $bannerGroupData->getAnimationType();
+    $bannerWidth = $bannerGroupData->getBannerWidth();
+    $bannerHeight = $bannerGroupData->getBannerHeight();
+    $styleBWH = 'width: ' . $bannerWidth . 'px; height: ' . $bannerHeight . 'px;';
+    $duration = Mage::getStoreConfig('banner/banner/banner_time_delay');
+    $autoplay = Mage::getStoreConfig('banner/banner/banner_autoplay');
+    $durat = $duration / 1000;
+
+    $imageWidth = ((int) $bannerWidth - 1);
+    $imageHeight = ((int) $bannerHeight - 2);
+    $styleWH = 'width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px;';
+    ?>
+    <style type="text/css">
+        div#slider{<?php echo $styleBWH; ?>;}
+        div.scroller{<?php echo $styleBWH; ?>;}
+        div.scroller div.section{<?php echo $styleWH; ?>;}
+        div.scroller span.content{<?php echo $styleWH; ?>;}
+        div.scroller div.section img{<?php echo $styleWH; ?>;}
+        .bannerlinerglider{width:<?php echo ($imageWidth . "px"); ?>;}
+
+    </style>
+    <div class="scroller">
+        <span class="content">
+            <?php
+            $i = 0;
+            foreach ($bannerData as $banner):
+                $i++;
+                $v = "imgglid" . $i;
+                $bannerPath = $banner->getFilename();
+                $bannerCon = $banner->getBannerContent();
+                $bannerTitle = $banner->getTitle();
+                $bannerType = $banner->getBannerType();
+                $bannerLink = $banner->getLink();
+                if ($bannerType == 0):
+                    $bannerImage = '';
+                    if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)):
+                        $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+                    endif;
+                    $bannerLink = $banner->getLink();
+                    if ($bannerImage != '') :
+                        ?>
+                        <div class="section" id="section<?php echo $i; ?>"><a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" <?php echo (($bannerLink) ? 'target="' . $bannerdest . '"' : ''); ?>><img id="<?php echo $v; ?>" src="<?php echo $bannerImage; ?>" alt="<?php echo $bannerTitle; ?>"/></a></div>
+                    <?php endif;
+                else: ?>
+                    <div class="section" id="section<?php echo $i; ?>"><a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" <?php echo (($bannerLink) ? 'target="' . $bannerdest . '"' : ''); ?> title="<?php echo $bannerTitle; ?>"><?php echo $bannerCon; ?></a></div>
+                <?php endif;
+            endforeach; ?>
+        </span>
+        <script type="text/javascript">
+            var my_glider = new Glider('slider', {scroller: 'div.scroller', sections: 'div.section',duration:1.0, autoGlide: <?php echo (($autoplay == 1) ? 'true' : 'false'); ?>, frequency:<?php echo (int) $durat * 2; ?>, initialSection: 'section1'});
+        </script>
+    </div>
+    <div class="bannerlinerglider"></div>
+    <div class="slidercontrol">
+        <a href="javascript:" class="aprev" title="<?php echo $this->__('Previous') ?>" onclick="my_glider.previous();return false;"><?php echo $this->__('Previous') ?></a>
+        <a href="javascript:" class="astop" title="<?php echo $this->__('Stop') ?>" onclick="my_glider.stop();return false"><?php echo $this->__('Stop') ?></a>
+        <a href="javascript:" class="aplay" title="<?php echo $this->__('Start') ?>" onclick="my_glider.start();return false"><?php echo $this->__('Start') ?></a>
+        <a href="javascript:" class="anext" title="<?php echo $this->__('Next') ?>" onclick="my_glider.next();return false"><?php echo $this->__('Next') ?></a>
+    </div>
+</div>

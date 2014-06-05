@@ -1,0 +1,20 @@
+/* protofade */
+#protofade, #protofade2, #protofade3, #protofade4 { position:relative; margin:0; padding:0px; overflow:hidden; }
+#slider-container, #slider-container2 { border: 1px solid #CCCCCC; padding: 1px;}
+#protofade3, #protofade4 { border: 1px solid #CCCCCC; }
+#slider-container4, #protofade4 { height:190px; }
+#protofade li, #protofade2 li, #protofade3 li { position:absolute; top:0; left:0; margin:0; padding:0; background:none;}
+#protofade4 div { position:absolute; top:0; left:0; margin:0; padding:10px; background:none; text-align:left}
+/*********************Square Transition Banner**************************/
+#protofade2 img.trans-banner-img{cursor: pointer;}
+/*********************Text Fade Banner**************************/
+#slider-container4{border:1px solid #DDDDDD;}
+#protofade4{margin:3px;}
+#protofade4 .fade-banner-title{cursor: pointer; text-align:left; padding:0 0 2px;}
+/*********************Play And Pause Slide Show**************************/
+#protofade3 .slide-banner-txt{padding:3px;}
+
+.next{ padding:4px;color: #ffffff;background:url(bullet.gif)  }
+.previous { padding:4px;color: #ffffff;background:url(bullet.gif)  }
+.start{ padding:4px;color: #ffffff;background:url(bullet.gif)  }
+.stop { padding:4px;color: #ffffff;background:url(bullet.gif)  }

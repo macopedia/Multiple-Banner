@@ -1,0 +1,7 @@
+/*********************Image Slider Show**************************/
+.sliderTrack {background:transparent url('../../images/resources/track_fill_left.png') no-repeat scroll left top; height:15px; position:relative; text-align:left; width:137px;}
+.sliderHandle {background:transparent url('../../images/resources/knob.png') no-repeat scroll left top; cursor:pointer; height:16px; margin-left:-2px; position:absolute; top:-5px; width:16px;}
+.captionHolder {font-size: 34px; color: black;}								
+#protoflow {width: auto; height: 400px; border: 1px solid #cccccc;}
+#protoflow .captionHolder{z-index:10; color:#FFF;}
+#protoflow div.slider-banner-img img{border: 1px solid #CCCCCC; cursor: pointer;}

@@ -1,0 +1,71 @@
+<?php
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$bannerGroupCode = $this->getBannerGroupCode();
+$data = $this->getDataByGroupCode($bannerGroupCode);
+$bannerGroupData = $data['group_data'];
+$mediaDir = Mage::getBaseDir('media');
+$bannerData = $data['banner_data'];
+$bannerdest = (($bannerGroupData->getLinkTarget() == 0) ? '_blank' : '_self');
+$bannerType = $bannerGroupData->getAnimationType();
+$bannerWidth = $bannerGroupData->getBannerWidth();
+$bannerHeight = $bannerGroupData->getBannerHeight();
+$duration = Mage::getStoreConfig('banner/banner/banner_time_delay');
+$autoplay = Mage::getStoreConfig('banner/banner/banner_autoplay');
+
+$imageWidth = ((int) $bannerWidth / 1.8);
+$imageHeight = ((int) $bannerHeight / 1.8);
+$styleWH = 'width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px;';
+$styleBWH = 'width: ' . $bannerWidth . 'px; height: ' . $bannerHeight . 'px;';
+?>
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getSkinUrl('unibanner/css/protoFlow.css') ?>"/>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/protoFlow.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/prettify.js') ?>"></script>
+<script type="text/javascript" language="javascript">
+    Event.observe(window, 'load', function() {
+        prettyPrint();
+        cf = new ProtoFlow($("protoflow"), {
+            startIndex: 2,
+            interval: 60,
+            captions: true,
+            useReflection: true,
+            enableOnClickScroll: true,
+            autoplay: <?php echo (($autoplay == 1) ? 'true' : 'false'); ?>
+        });
+    });
+</script>
+<style type="text/css">
+    #protoflow{<?php echo $styleBWH; ?>}
+    #protoflow .captionHolder{font-size:<?php echo ((int) $bannerHeight / 15) . 'px'; ?>; <?php echo ((((int) $bannerHeight / 15) < 18) ? 'font-weight:bold;' : 'font-weight:normal;'); ?>;}
+</style>
+<div id="protoflow">
+<?php
+$i = 0;
+foreach ($bannerData as $banner):
+    $bannerType = $banner->getBannerType();
+    $bannerPath = $banner->getFilename();
+    $bannerTitle = $banner->getTitle();
+    $bannerContent = $banner->getBannerContent();
+    $bannerLink = $banner->getLink();
+    if ($bannerType == 0):
+        $i++;
+        $v = "imgslid" . $i;
+        $bannerImage = '';
+        if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)):
+            $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+        endif;
+        if ($bannerImage != '') : ?>
+            <a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>"  <?php echo (($bannerLink)?'target="'.$bannerdest.'"':''); ?> title="<?php echo $bannerTitle; ?>"><img id="<?php echo $v; ?>" class="slider-banner-img" src="<?php echo $bannerImage; ?>" alt="<?php echo $bannerTitle; ?>" /></a>
+<?php
+            endif;
+        endif;
+    endforeach;
+?>
+</div>

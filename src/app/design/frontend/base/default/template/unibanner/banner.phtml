@@ -1,0 +1,54 @@
+<?php
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+
+$bannerGroupCode = $this->getBannerGroupCode();
+$data = $this->getDataByGroupCode($bannerGroupCode);
+$bannerGroupData = $data['group_data'];
+$template = '';
+if (count($bannerGroupData) > 0):
+    $prebaneff = $bannerGroupData->getPreBannerEffects();
+    $bannerType = $bannerGroupData->getAnimationType();
+?>
+<?php    
+    if ($bannerType == 1):
+        $template = $this->getLayout()->createBlock('banner/banner', 'custom.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/custom.phtml')->toHtml();
+    else:
+        switch ($prebaneff) {
+            case 'Image Slide Show':
+                $template = $this->getLayout()->createBlock('banner/banner', 'slideshow.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/slideshow.phtml')->toHtml();
+                break;
+            case 'Square Transition Banner':
+                $template = $this->getLayout()->createBlock('banner/banner', 'strans.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/strans.phtml')->toHtml();
+                break;
+            case 'Text Fade Banner':
+                $template = $this->getLayout()->createBlock('banner/banner', 'textfade.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/textfade.phtml')->toHtml();
+                break;
+            case 'Play And Pause Slide Show':
+                $template = $this->getLayout()->createBlock('banner/banner', 'playpause.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/playpause.phtml')->toHtml();
+                break;
+            case 'Numbered Banner':
+                $template = $this->getLayout()->createBlock('banner/banner', 'numbered.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/numbered.phtml')->toHtml();
+                break;
+            case 'image spring slider':
+                $template = $this->getLayout()->createBlock('banner/banner', 'springslider.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/springslider.phtml')->toHtml();
+                break;
+            case 'image vertical slider':
+                $template = $this->getLayout()->createBlock('banner/banner', 'verslider.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/verslider.phtml')->toHtml();
+                break;
+            case 'image glider':
+                $template = $this->getLayout()->createBlock('banner/banner', 'glider.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/horslider.phtml')->toHtml();
+                break;
+           
+        }
+    endif;
+    echo $template;
+endif;
+?>

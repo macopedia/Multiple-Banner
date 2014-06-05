@@ -1,0 +1,22 @@
+.custom-banner{border:1px solid #CCCCCC; padding:2px;}
+.custom-banner img.custom-banner-img{border: 1px solid #CCCCCC; cursor: pointer;}
+.custom-banner div.custom-banner-txt{border: 1px solid #CCCCCC; padding: 3px; overflow: hidden; text-decoration: none; cursor: pointer;}
+/*********************Numbered Banner**************************/
+.banner {margin-top:-50px;margin-left:4px; text-align: right;}
+.banner a:link, .banner a:visited { font-family:"Times New Roman", Times, serif; font-size:11px; background:#000000; border:1px solid #000000; color:#FFFFFF; padding:2px 6px; text-decoration:none; }
+.banner a.selected:link, .banner a.selected:visited, .banner a:hover { background:#015289; border:1px solid #000000; }
+/* .slider div img{border:2px solid #CCCCCC;} */
+.slider .number-div{border:2px solid #CCCCCC; float:left;}
+.slider .number-div a{text-decoration:none;}
+
+/*************************New**************************/
+.slider{position:relative; text-align:center;}
+.bannerline{ margin-top:-30px; background:none repeat scroll 0 0 #618499;display:inline; height:28px; margin-left:0px; position:relative; float: left; opacity:0.7; z-index:999; filter:alpha(opacity=67.41349464779863); ZOOM: 1;}
+.slide-show{float: left; background-position:center center; background-repeat:no-repeat; text-align:center; position:relative;}
+.indentmenu{z-index:1000; color:#000; font-size: 11px; float: right; margin: 4px 10px 0 0;}
+.indentmenu ul{margin: 2px; padding: 0; float: left; background: transparent;}
+.indentmenu ul li{display: inline;}
+.indentmenu ul li a{background: none repeat scroll 0 0 #000000; border: 1px solid #000000; color: #FFFFFF; font-family: "Times New Roman",Times,serif; font-size: 11px; padding: 2px 6px; text-decoration: none;}
+.indentmenu ul li a:hover{background:#015289; border:1px solid #000000;}
+.indentmenu ul li a.selected{background:#015289; border:1px solid #000000;}
+.tabcontent{display:none;}

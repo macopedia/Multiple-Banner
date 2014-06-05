@@ -1,0 +1,87 @@
+<?php
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getSkinUrl('unibanner/css/custom.css') ?>" />
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/ajaxtabs.js') ?>"></script>
+<?php
+$bannerGroupCode = $this->getBannerGroupCode();
+$data = $this->getDataByGroupCode($bannerGroupCode);
+$bannerGroupData = $data['group_data'];
+$mediaDir = Mage::getBaseDir('media');
+$bannerData = $data['banner_data'];
+$bannerdest = (($bannerGroupData->getLinkTarget() == 0) ? '_blank' : '_self');
+$bannerType = $bannerGroupData->getAnimationType();
+$bannerWidth = $bannerGroupData->getBannerWidth();
+$bannerHeight = $bannerGroupData->getBannerHeight();
+$duration = Mage::getStoreConfig('banner/banner/banner_time_delay');
+$autoplay = Mage::getStoreConfig('banner/banner/banner_autoplay');
+$imageWidth = ((int) $bannerWidth);
+$imageHeight = ((int) $bannerHeight);
+$styleNWH = 'width: ' . ((int) $bannerWidth + 5) . 'px; height: ' . ((int) $bannerHeight + 5) . 'px;';
+$styleWH = 'width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px;';
+?>
+<style type="text/css">
+    .bannerline{width:<?php echo ($imageWidth . "px"); ?>;}
+    .slider{<?php echo $styleNWH; ?>;}
+    .slider .slide-show{<?php echo $styleNWH; ?>;}
+    .slider .slide-show .slider-images{<?php echo $styleNWH; ?>;}
+    .slider .tabcontent{<?php echo $styleWH; ?>;}
+    .slider .tabcontent img{<?php echo $styleWH; ?>}
+</style>
+<div class="slider">
+    <div class="slide-show" id="slide-images">
+        <div class="slider-images">
+            <?php
+            $i = 0;
+            foreach ($bannerData as $banner):
+                $i++;
+                $disp = (($i == 1) ? 'inline' : 'none');
+                $v = "imgnumber" . $i;
+                $bannerPath = $banner->getFilename();
+                $bannerType = $banner->getBannerType();
+                $bannerTitle = $banner->getTitle();
+                $bannerLink = $banner->getLink();
+                $bannerContent = $banner->getBannerContent();
+                if ($bannerType == 0) :
+                    $bannerImage = '';
+                    if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)) :
+                        $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+                    endif;
+                    if ($bannerImage != '') :
+                        ?>
+                        <div id="<?php echo "tab" . $i; ?>" class="tabcontent">
+                            <a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" title="<?php echo $bannerTitle; ?>" <?php echo (($bannerLink) ? 'target="' . $bannerdest . '"' : ''); ?>><img src="<?php echo $bannerImage; ?>"  style="<?php echo $styleWH; ?>" alt="<?php echo $bannerTitle; ?>"/></a>
+                        </div>
+                    <?php endif;
+                else: ?>
+                    <div id="<?php echo "tab" . $i; ?>" class="tabcontent">
+                        <a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" title="<?php echo $bannerTitle; ?>" <?php echo (($bannerLink) ? 'target="' . $bannerdest . '"' : ''); ?>><?php echo $bannerContent; ?></a>
+                    </div>
+                <?php
+                endif;
+            endforeach;
+            ?>
+        </div>
+        <div class="bannerline"><div id="pettabs" class="indentmenu">
+                <ul>
+                    <?php for ($w = 1; $w <= $i; $w++) :
+                        $uvb123 = (($w == 1) ? "selected" : ""); ?>
+                        <li><a rel="tab<?php echo $w; ?>" href="javascript:" class="<?php echo $uvb123; ?>"><?php echo $w; ?></a></li>
+                    <?php endfor; ?>
+                </ul>
+            </div></div>
+    </div>
+</div>
+<script type="text/javascript">
+<?php echo 'var delay = ' . (($autoplay == 1) ? $duration : '""') . ';'; ?>
+    var mypets=new ddtabcontent("pettabs");
+    mypets.setpersist(true);
+    mypets.setselectedClassTarget("link");
+    mypets.init(delay);
+</script>

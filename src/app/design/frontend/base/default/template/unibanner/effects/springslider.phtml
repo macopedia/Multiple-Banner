@@ -1,0 +1,89 @@
+<?php
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getSkinUrl('unibanner/css/carousel.css') ?>" />
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/carousel.js') ?>"></script>
+<?php
+$bannerGroupCode = $this->getBannerGroupCode();
+$data = $this->getDataByGroupCode($bannerGroupCode);
+$bannerGroupData = $data['group_data'];
+$mediaDir = Mage::getBaseDir('media');
+$bannerData = $data['banner_data'];
+$baneff = $bannerGroupData->getBannerEffects();
+$prebaneff = $bannerGroupData->getPreBannerEffects();
+$bannerdest = (($bannerGroupData->getLinkTarget() == 0) ? '_blank' : '_self');
+$bannerType = $bannerGroupData->getAnimationType();
+$bannerWidth = $bannerGroupData->getBannerWidth();
+$bannerHeight = $bannerGroupData->getBannerHeight();
+
+$styleBWH = 'width: ' . $bannerWidth . 'px; height: ' . $bannerHeight . 'px;';
+$duration = Mage::getStoreConfig('banner/banner/banner_time_delay');
+$autoplay = Mage::getStoreConfig('banner/banner/banner_autoplay');
+$durat = $duration / 1000;
+$imageWidth = ((int) $bannerWidth - 1);
+$imageHeight = ((int) $bannerHeight - 2);
+$styleWH = 'width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px;';
+?>
+<style type="text/css">
+    .carousel{        
+        border: 1px solid #ccc;
+        <?php echo $styleBWH;?>;
+    }
+    .carousel .carousel-middle {
+        float: left;        
+        <?php echo $styleWH;?>;
+        overflow: hidden;
+    }
+    .carousel .carousel-inner{width: 1000000px; height: <?php echo (int)$bannerHeight.'px';?>;}
+    .carousel .carousel-inner .slide{float:left; height: <?php echo (int)$imageHeight.'px';?>; width: <?php echo (int)$bannerWidth.'px';?>; padding: 1px;}
+</style>
+<div id="<?php echo $bannerGroupCode; ?>" class="carousel">
+    <div class="carousel-middle">
+        <div class="carousel-inner">
+            <?php
+            $i = 0;
+            foreach ($bannerData as $banner):
+                $i++;
+                $v = "imgspring" . $i;
+                $bannerPath = $banner->getFilename();
+                $bannerCon = $banner->getBannerContent();
+                $bannerTitle = $banner->getTitle();
+                $bannerType = $banner->getBannerType();
+                $bannerLink = $banner->getLink();
+                if ($bannerType == 0):
+                    $bannerImage = '';
+                    if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)) :
+                        $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+                    endif;
+                    if ($bannerImage != '') :
+            ?>
+                        <div class="slide">
+                            <div class="section"  id="section<?php echo $i; ?>"><a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" <?php echo (($bannerLink)?'target="'.$bannerdest.'"':''); ?> title="<?php echo $bannerTitle; ?>"><img id="<?php echo $v; ?>" src="<?php echo $bannerImage; ?>" alt="<?php echo $bannerTitle; ?>"  /></a></div>
+                        </div>
+            <?php endif;
+                    else: ?>
+                        <div class="slide">
+                            <div class="section"  id="section<?php echo $i; ?>"><a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" <?php echo (($bannerLink)?'target="'.$bannerdest.'"':''); ?> title="<?php echo $bannerTitle; ?>"><?php echo $bannerCon; ?></a></div>
+                        </div>
+            <?php endif;
+                    endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <ul class="tabs">
+            <li><a href="javascript:" class="carousel-control prev" title="<?php echo $this->__('Previous') ?>" rel="prev"><?php echo $this->__('Previous') ?></a></li>
+            <li><a href="javascript:" class="carousel-control stop" title="<?php echo $this->__('Stop') ?>" rel="pause"><?php echo $this->__('Stop') ?></a></li>
+            <li><a href="javascript:" class="carousel-control start" title="<?php echo $this->__('Start') ?>" rel="resume"><?php echo $this->__('Start') ?></a></li>
+            <li><a href="javascript:" class="carousel-control next" title="<?php echo $this->__('Next') ?>" rel="next"><?php echo $this->__('Next') ?></a></li>
+        </ul>
+        <script type="text/javascript">
+            //new Carousel($('example-1').down('.middle'), $('example-1').select('.slide'), $('tab-1').select('.controls a'), {duration: 0.4, circular: true, transition: 'spring'});
+            //new Carousel($$('.middle-tabs').first(), $$('.section'), $$('ul.tabs a'), {duration: 0.5, wheel: true})
+            new Carousel($('<?php echo $bannerGroupCode; ?>').down('.carousel-middle'), $('<?php echo $bannerGroupCode; ?>').down('.carousel-inner').select('div.slide'), $$('ul.tabs a'), {duration: 0.5, effect: 'spring', visibleSlides: 1, circular: true});
+</script>

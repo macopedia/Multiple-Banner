@@ -1,0 +1,73 @@
+<?php
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getSkinUrl('unibanner/css/stylesban.css') ?>" />
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/protofade.js') ?>"></script>
+<?php
+$bannerGroupCode = $this->getBannerGroupCode();
+$data = $this->getDataByGroupCode($bannerGroupCode);
+$bannerGroupData = $data['group_data'];
+$mediaDir = Mage::getBaseDir('media');
+$bannerData = $data['banner_data'];
+$bannerdest = (($bannerGroupData->getLinkTarget() == 0) ? '_blank' : '_self');
+$bannerType = $bannerGroupData->getAnimationType();
+$bannerWidth = $bannerGroupData->getBannerWidth();
+$bannerHeight = $bannerGroupData->getBannerHeight();
+$imageWidth = ((int) $bannerWidth - 3);
+$imageHeight = ((int) $bannerHeight - 3);
+$styleBWH = 'width: ' . $bannerWidth . 'px; height: ' . $bannerHeight . 'px;';
+$duration = Mage::getStoreConfig('banner/banner/banner_time_delay');
+$durat = $duration / 1000;
+?>
+<script type="text/javascript">
+    function StartUp() {
+        new Protofade('protofade2', {
+            eSquare:true,
+            eColor: '#000000',
+            delay:<?php echo $durat; ?>,
+            autostart:true,
+            controls:false,
+            eCols: <?php echo ((round((int) $imageWidth / 60) > 3) ? (round((int) $imageWidth / 60)) : 3); ?>,
+            eRows: <?php echo ((round((int) $imageHeight / 60) > 3) ? (round((int) $imageHeight / 60)) : 3); ?>
+        });
+    }
+    document.observe ('dom:loaded', StartUp);
+</script>
+<style type="text/css">
+    #slider-container2{<?php echo $styleBWH; ?>}
+    #protofade2{<?php echo $styleBWH; ?>}
+    #protofade2 img.trans-banner-img{<?php echo $styleBWH; ?>}
+</style>
+<div id="slider-container2">
+    <ul id="protofade2">
+<?php
+$i = 0;
+foreach ($bannerData as $banner):
+    $bannerPath = $banner->getFilename();
+    $bannerType = $banner->getBannerType();
+    if ($bannerType == 0) :
+        $bannerImage = '';
+        if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)) :
+            $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+        endif;
+        $bannerTitle = $banner->getTitle();
+        $bannerContent = $banner->getBannerContent();
+        $bannerLink = $banner->getLink();
+        if ($bannerImage != '') :
+            $i++;
+            $v = "imgsqtran" . $i;
+?>
+            <li><a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" <?php echo (($bannerLink)?'target="'.$bannerdest.'"':''); ?> title="<?php echo $bannerTitle; ?>"><img id="<?php echo $v; ?>" class="trans-banner-img" src="<?php echo $bannerImage; ?>" alt="<?php echo $bannerTitle; ?>" /></a></li>
+<?php
+            endif;
+        endif;
+    endforeach; ?>
+    </ul>
+</div>
