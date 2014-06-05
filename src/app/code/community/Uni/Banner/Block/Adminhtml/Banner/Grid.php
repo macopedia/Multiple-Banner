@@ -82,6 +82,17 @@ class Uni_Banner_Block_Adminhtml_Banner_Grid extends Uni_Banner_Block_Adminhtml_
             ),
         ));
 
+        $this->addColumn('mobile', array(
+                'header' => Mage::helper('banner')->__('Mobile'),
+                'width' => '200px',
+                'type' => 'options',
+                'index' => 'mobile',
+                'options' => array(
+                    1 => Mage::helper('banner')->__('Yes'),
+                    0 => Mage::helper('banner')->__('No'),
+                ),
+            ));
+
         $this->addColumn('action',
                 array(
                     'header' => Mage::helper('banner')->__('Action'),
