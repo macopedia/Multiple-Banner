@@ -45,6 +45,12 @@ class Uni_Banner_Block_Adminhtml_Banner_Grid extends Uni_Banner_Block_Adminhtml_
             'index' => 'title',
         ));
 
+        $this->addColumn('banner_name', array(
+                'header' => Mage::helper('banner')->__('Name'),
+                'type' => 'text',
+                'index' => 'banner_name',
+            ));
+
         $this->addColumn('link', array(
             'header' => Mage::helper('banner')->__('Web Url'),
             'width' => '150px',

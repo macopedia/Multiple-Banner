@@ -13,7 +13,8 @@ class Uni_Banner_Block_Banner_Single extends Mage_Core_Block_Template
      */
     public function getBanner($id)
     {
-        return Mage::getModel('banner/banner')->load($id);
+        return Mage::getModel('banner/banner')->getCollection()
+            ->addFieldToFilter('banner_name', $id)->getFirstItem();
     }
 
     /**

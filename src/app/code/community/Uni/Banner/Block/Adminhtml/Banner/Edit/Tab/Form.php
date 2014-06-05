@@ -23,6 +23,13 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
             'name' => 'title',
         ));
 
+        $fieldset->addField('banner_name', 'text', array(
+                'label' => Mage::helper('banner')->__('Name'),
+                'class' => 'validate-code',
+                'required' => true,
+                'name' => 'banner_name',
+            ));
+
         $fieldset->addField('link', 'text', array(
             'label' => Mage::helper('banner')->__('Web Url'),
             'name' => 'link',
@@ -69,6 +76,18 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
                 'required' => false,
             ));
         }
+
+        $fieldset->addField('banner_width', 'text', array(
+                'label' => Mage::helper('banner')->__('Banner Width [in px]'),
+                'required' => false,
+                'name' => 'banner_width',
+            ));
+
+        $fieldset->addField('banner_height', 'text', array(
+                'label' => Mage::helper('banner')->__('Banner Height [in px]'),
+                'required' => false,
+                'name' => 'banner_height',
+            ));
 
         $fieldset->addField('sort_order', 'text', array(
             'label' => Mage::helper('banner')->__('Sort Order'),
