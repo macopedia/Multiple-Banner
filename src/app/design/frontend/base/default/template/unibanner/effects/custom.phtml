@@ -1,0 +1,66 @@
+<?php
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/custom.js') ?>"></script>
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getSkinUrl('unibanner/css/custom.css') ?>" />
+<?php
+$bannerGroupCode = $this->getBannerGroupCode();
+$data = $this->getDataByGroupCode($bannerGroupCode);
+$bannerGroupData = $data['group_data'];
+$mediaDir = Mage::getBaseDir('media');
+$bannerData = $data['banner_data'];
+$baneff = $bannerGroupData->getBannerEffects();
+$bannerdest = (($bannerGroupData->getLinkTarget() == 0) ? '_blank' : '_self');
+$bannerType = $bannerGroupData->getAnimationType();
+$bannerWidth = $bannerGroupData->getBannerWidth();
+$bannerHeight = $bannerGroupData->getBannerHeight();
+$imageWidth = ((int) $bannerWidth - 3);
+$imageHeight = ((int) $bannerHeight - 3);
+$styleBWH = 'width: ' . $bannerWidth . 'px; height: ' . $bannerHeight . 'px;';
+$styleWH = 'width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px;';
+$duration = Mage::getStoreConfig('banner/banner/banner_time_delay');
+?>
+<style type="text/css">
+    .custom-banner{<?php echo $styleBWH; ?>;}
+    .custom-banner img.custom-banner-img{<?php echo $styleWH; ?>;}
+    .custom-banner div.custom-banner-txt{<?php echo $styleWH; ?>}
+</style>
+<div class="custom-banner">
+<?php
+$i = 0;
+foreach ($bannerData as $banner):
+    $i++;
+    $bannerType = $banner->getBannerType();
+    $bannerTitle = $banner->getTitle();
+    $bannerContent = $banner->getBannerContent();
+    $bannerLink = $banner->getLink();
+    $v = "img" . $i;
+    if ($bannerType == 0) :
+        $bannerPath = $banner->getFilename();
+        $bannerImage = '';
+        if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)):
+            $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+        endif;
+        if ($bannerImage != '') :
+?>
+            <a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>"  <?php echo (($bannerLink)?'target="'.$bannerdest.'"':''); ?>  title="<?php echo $bannerTitle; ?>"><img id="<?php echo $v; ?>" class="custom-banner-img" style="display: none;"  src="<?php echo $bannerImage; ?>" alt="<?php echo $bannerTitle; ?>" /></a>
+<?php
+            endif;
+        else:
+?><div id="<?php echo $v; ?>" style="display: none;" class="custom-banner-txt"><a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" title="<?php echo $bannerTitle; ?>" <?php echo (($bannerLink)?'target="'.$bannerdest.'"':''); ?>><?php echo $bannerContent; ?></a></div>
+        <?php endif;
+        endforeach; ?>
+    </div>
+    <script type="text/javascript">
+<?php if ($baneff == 'Fade/Appear') { ?>
+            slideshowdefault(1,<?php echo $i; ?>,<?php echo $duration; ?>);
+<?php } else { ?>
+            slideshow(1,<?php echo $i; ?>,<?php echo $duration; ?>,Effect.<?php echo $baneff; ?>);
+<?php } ?>
+</script>

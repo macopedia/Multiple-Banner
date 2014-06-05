@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+ -->
+<layout version="0.1.0">
+    <default>
+        <reference name="top.links">
+            <action method="addLink" ifconfig="banner/banner/banner_toplink_enabled" translate="label title" module="banner"><label>Banner</label><url>banner</url><title>Banner</title><prepare>true</prepare></action>
+        </reference>
+    </default>
+    <banner_index_index>
+        <reference name="head">
+             <action method="addJs"><script>JQuery/galleria-jquery.js</script></action>
+               <action method="addJs"><script>JQuery/galleria-1.2.7.min.js</script></action>
+               <action method="addCss"><stylesheet>css/galleria.classic.css</stylesheet></action>
+        </reference>
+        <reference name="left">
+            <block type="banner/banner" name="banner.left" template="unibanner/banner.phtml">
+                <action method="setData">
+                    <name>banner_group_code</name>
+                    <value>left_banner</value>
+                </action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="banner/banner" name="banner.home" template="unibanner/banner.phtml">
+                <action method="setData">
+                    <name>banner_group_code</name>
+                    <value>home_banner</value>
+                </action>
+            </block>
+        </reference>
+    </banner_index_index>
+</layout>

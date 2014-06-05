@@ -1,0 +1,59 @@
+<!--
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<?php echo $this->getTabsHtml() ?>
+<script type="text/javascript">
+    //<![CDATA[
+    function load_banner_funcs(){        
+<?php if (($block = $this->getLayout()->getBlock('bannergroup.grid.banner')) && ($_gridJsObject = $block->getJsObjectName())): ?>
+            if(!$('in_bannergroup_banners')){
+                setTimeout('load_banner_funcs()',500);
+                return false;
+            }
+            var selectedBanners=$H(<?php echo $this->getBannersJson(); ?>);            
+            $('in_bannergroup_banners').value = selectedBanners.toQueryString();
+            
+            function registerSelectedBanner(grid, element, checked){
+                if(checked){
+                    selectedBanners.set(element.value, element.value);
+                }
+                else{
+                    selectedBanners.unset(element.value);
+                }
+                $('in_bannergroup_banners').value = selectedBanners.toQueryString();                
+                grid.reloadParams = {'selected_banners[]':selectedBanners.keys()};
+            }    
+            function selectedBannerRowClick(grid, event){
+                var trElement = Event.findElement(event, 'tr');
+                var isInput   = Event.element(event).tagName == 'INPUT';
+                if(trElement){
+                    var checkbox = Element.getElementsBySelector(trElement, 'input');
+                    if(checkbox[0]){
+                        var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+<?php echo $_gridJsObject ?>.setCheckboxChecked(checkbox[0], checked);
+                    }
+                }
+            }
+
+            var tabIndex = 1000;
+            function selectedBannerRowInit(grid, row){
+                var checkbox = $(row).getElementsByClassName('checkbox')[0];
+            }
+
+
+<?php echo $_gridJsObject ?>.rowClickCallback 		= selectedBannerRowClick;
+<?php echo $_gridJsObject ?>.initRowCallback 		= selectedBannerRowInit;
+<?php echo $_gridJsObject ?>.checkboxCheckCallback	= registerSelectedBanner;
+<?php echo $_gridJsObject ?>.rows.each(function(row){selectedBannerRowInit(<?php echo $_gridJsObject ?>, row)});
+
+<?php endif; ?>
+    }
+    load_banner_funcs();
+    //]]>
+</script>

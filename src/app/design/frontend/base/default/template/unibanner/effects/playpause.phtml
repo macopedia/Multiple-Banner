@@ -1,0 +1,90 @@
+<?php
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Banner
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getSkinUrl('unibanner/css/stylesban.css') ?>" />
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/protofade.js') ?>"></script>
+<!--[if IE ]>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('unibanner/css/opacityother.css') ?>" media="all" />
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('unibanner/css/noieopacity.css') ?>" media="all" />
+<?php
+$bannerGroupCode = $this->getBannerGroupCode();
+$data = $this->getDataByGroupCode($bannerGroupCode);
+$bannerGroupData = $data['group_data'];
+$mediaDir = Mage::getBaseDir('media');
+$bannerData = $data['banner_data'];
+$bannerdest = (($bannerGroupData->getLinkTarget() == 0) ? '_blank' : '_self');
+$bannerType = $bannerGroupData->getAnimationType();
+$bannerWidth = $bannerGroupData->getBannerWidth();
+$bannerHeight = $bannerGroupData->getBannerHeight();
+$imageWidth = ((int) $bannerWidth - 3);
+$imageHeight = ((int) $bannerHeight - 3);
+$styleWH = 'width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px;';
+$duration = Mage::getStoreConfig('banner/banner/banner_time_delay');
+$autoplay = Mage::getStoreConfig('banner/banner/banner_autoplay');
+$durat = $duration / 1000;
+$styleMBWH = 'width: ' . $bannerWidth . 'px; height: ' . ((int) $bannerHeight + 20) . 'px;';
+?>
+<script type="text/javascript">
+    function StartUp() {
+        new Protofade('protofade3', { duration: 0.5, delay:<?php echo $durat; ?>, controls: true, autostart:<?php echo (($autoplay == 1) ? 'true' : 'false'); ?> });
+    }
+    document.observe ('dom:loaded', StartUp);
+</script>
+<style type="text/css">
+    #slider-container3{<?php echo $styleMBWH;?>;}
+    .bannerlinerpau{ margin-top:-33px; background:none repeat scroll 0 0 #618499;display:inline;
+                     height:28px;
+                     margin-left:0px;
+                     position:absolute;
+                     width:<?php echo ($bannerWidth . "px"); ?>;
+                     z-index:999;}
+    #slider-container3 .controls{position:relative;margin-top:10px;  width:96%; z-index:1000;color:#000}
+</style>
+<!--[if lt IE 7]>
+<style type="text/css">
+#protofade3{width:0px; height:0px;}</style>
+<![endif]-->
+<style type="text/css">
+    #protofade3{<?php echo $styleWH; ?>}
+    #protofade3 .fade-banner-title{font-size:<?php echo ((int) $bannerHeight / 15) . 'px'; ?>; <?php echo ((((int) $bannerHeight / 15) < 18) ? 'font-weight:bold;' : 'font-weight:normal;'); ?>}
+    #protofade3 .slide-banner-img{<?php echo $styleWH; ?>}
+    #protofade3 .slide-banner-txt{<?php echo $styleWH; ?>}
+</style>
+<div id="slider-container3">
+    <ul id="protofade3">
+<?php
+$i = 0;
+foreach ($bannerData as $banner):
+    $bannerPath = $banner->getFilename();
+    $bannerLink = $banner->getLink();
+    $bannerContent = $banner->getBannerContent();
+    $bannerTitle = $banner->getTitle();
+    $i++;
+    $bannerType = $banner->getBannerType();
+    if ($bannerType == 0) :
+        $bannerImage = '';
+        if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)) :
+            $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+        endif;
+        if ($bannerImage != '') :
+            $i++;
+            $v = "imgpps" . $i;
+?>
+            <li><a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" <?php echo (($bannerLink)?'target="'.$bannerdest.'"':''); ?> title="<?php echo $bannerTitle; ?>"><img id="<?php echo $v; ?>" class="slide-banner-img" src="<?php echo $bannerImage; ?>" alt="<?php echo $bannerTitle; ?>" /></a></li>
+<?php
+            endif;
+        else:
+?>
+            <li class="slide-banner-txt"><a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" title="<?php echo $bannerTitle; ?>" <?php echo (($bannerLink)?'target="'.$bannerdest.'"':''); ?>><?php echo $bannerContent; ?></a></li>
+<?php endif;
+        endforeach; ?>
+    </ul>
+    <div class="bannerlinerpau"></div>
+</div>
