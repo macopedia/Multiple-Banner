@@ -37,10 +37,10 @@ $_banner = $this->getBanner($this->getBannerName());
                 <?php if($_bannerLink): ?>
                     <a href="<?php echo ($_bannerLink); ?>"
                        title="<?php echo $_bannerTitle; ?>">
-                        <img src="<?php echo $_bannerImage; ?>" width="584px" height="334px" alt="<?php echo $_bannerTitle; ?>"/>
+                        <img src="<?php echo $_bannerImage; ?>" alt="<?php echo $_bannerTitle; ?>"/>
                     </a>
                 <?php else: ?>
-                    <img src="<?php echo $_bannerImage; ?>" width="584px" height="334px" alt="<?php echo $_bannerTitle; ?>"/>
+                    <img src="<?php echo $_bannerImage; ?>" alt="<?php echo $_bannerTitle; ?>"/>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
