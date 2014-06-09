@@ -23,12 +23,22 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
             'name' => 'title',
         ));
 
-        $fieldset->addField('banner_name', 'text', array(
-                'label' => Mage::helper('banner')->__('Name'),
+        $fieldset->addField('identifier', 'text', array(
+                'label' => Mage::helper('banner')->__('Identifier'),
                 'class' => 'validate-code',
                 'required' => true,
-                'name' => 'banner_name',
+                'name' => 'identifier',
             ));
+
+        $field = $fieldset->addField('store', 'select', array(
+                'label'    => Mage::helper('banner')->__('Store View'),
+                'title'    => Mage::helper('banner')->__('Store View'),
+                'name'     => 'store',
+                'required' => true,
+                'values'   => $this->_getStoreValuesForForm(),
+            ));
+        $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
+        $field->setRenderer($renderer);
 
         $fieldset->addField('link', 'text', array(
             'label' => Mage::helper('banner')->__('Web Url'),
@@ -130,4 +140,16 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
         return parent::_prepareForm();
     }
 
+
+    /**
+     * Get store values for form
+     *
+     * @return array
+     */
+    protected function _getStoreValuesForForm()
+    {
+        /* @var $storeModel Mage_Adminhtml_Model_System_Store */
+        $storeModel = Mage::getSingleton('adminhtml/system_store');
+        return $storeModel->getStoreValuesForForm(false, false);
+    }
 }

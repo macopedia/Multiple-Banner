@@ -45,10 +45,19 @@ class Uni_Banner_Block_Adminhtml_Banner_Grid extends Uni_Banner_Block_Adminhtml_
             'index' => 'title',
         ));
 
-        $this->addColumn('banner_name', array(
-                'header' => Mage::helper('banner')->__('Name'),
+        $this->addColumn('identifier', array(
+                'header' => Mage::helper('banner')->__('Identifier'),
                 'type' => 'text',
-                'index' => 'banner_name',
+                'index' => 'identifier',
+            ));
+
+
+        $this->addColumn('store', array(
+                'header' => Mage::helper('banner')->__('Store view'),
+                'type' => 'store',
+                'index' => 'store',
+                'store_all' => false,
+                'store_view' => true
             ));
 
         $this->addColumn('link', array(
