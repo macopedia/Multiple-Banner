@@ -22,4 +22,4 @@ Custom changes
 =========================
 * Add extra mobile column to uni_banner table, grid, form
 * Add new block, template to add single banner to pages (without slider)
-{{block type="banner/banner_single" name="banner1" banner_id="1" template="unibanner/banner/single.phtml"}}
+{{block type="banner/banner_single" name="banner1" identifier="banner1_code" template="unibanner/banner/single.phtml"}}
