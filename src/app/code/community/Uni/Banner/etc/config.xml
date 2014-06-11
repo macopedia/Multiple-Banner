@@ -167,8 +167,8 @@
         <banner>
             <banner>
                 <banner_time_delay>3000</banner_time_delay>
-		<banner_autoplay>1</banner_autoplay>
-                <banner_toplink_enabled>1</banner_toplink_enabled>
+                <banner_autoplay>1</banner_autoplay>
+                <banner_toplink_enabled>0</banner_toplink_enabled>
             </banner>
         </banner>
     </default>

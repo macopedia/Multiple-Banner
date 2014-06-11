@@ -9,6 +9,7 @@
 class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Action {
 
     protected function _initAction() {
+        $this->_title(Mage::helper('banner')->__('Banner Manager'));
         $this->loadLayout()
                 ->_setActiveMenu('banner/items')
                 ->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
