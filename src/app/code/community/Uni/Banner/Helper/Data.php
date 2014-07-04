@@ -45,6 +45,10 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract {
         if ($image_file == '' || !file_exists($img_file))
             return false;
         list($width, $height, $type, $attr) = getimagesize($img_file);
+
+        if($width == 0 || $height == 0) {
+            return false;
+        }
         $a_height = (int) ((self::$egridImgThumbWidth / $width) * $height);
         return Array('width' => self::$egridImgThumbWidth, 'height' => $a_height);
     }
