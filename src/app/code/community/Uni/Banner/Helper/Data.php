@@ -46,7 +46,7 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract {
             return false;
         list($width, $height, $type, $attr) = getimagesize($img_file);
 
-        if($width == 0 || $height == 0) {
+        if ($width == 0 || $height == 0) {
             return false;
         }
         $a_height = (int) ((self::$egridImgThumbWidth / $width) * $height);
