@@ -17,7 +17,7 @@ class Uni_Banner_Model_Bannergroup extends Mage_Core_Model_Abstract {
         $groupData = array();
         $bannerData = array();
         $result = array('group_data'=>$groupData,'banner_data'=>$bannerData);
-        $collection = Mage::getResourceModel('banner/bannergroup_collection')->addFieldToFilter('store', Mage::app()->getStore()->getId());
+        $collection = Mage::getResourceModel('banner/bannergroup_collection');
         $collection->getSelect()->where('group_code = ?', $groupCode)->where('status = 1');
         foreach ($collection as $record) {
             $bannerIds = $record->getBannerIds();
