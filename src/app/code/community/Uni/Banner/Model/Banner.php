@@ -32,8 +32,13 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract {
     public function getDataByBannerIds($bannerIds) {
         $data = array();
         if ($bannerIds != '') {
+
             $collection = Mage::getResourceModel('banner/banner_collection');
-            $collection->getSelect()->where('banner_id IN (' . $bannerIds . ')')->order('sort_order');
+            $collection->getSelect()
+                ->where('banner_id IN (' . $bannerIds . ')')
+                ->where('store = ?', $this->_getCurrentStoreId())
+                ->order('sort_order');
+
             foreach ($collection as $record) {
                 $status = $record->getStatus();
                 if ($status == 1) {
@@ -44,4 +49,13 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract {
         return $data;
     }
 
+    /**
+     * Get current store id
+     * 
+     * @return int
+     */
+    protected function _getCurrentStoreId()
+    {
+        return Mage::app()->getStore()->getId();
+    }
 }
