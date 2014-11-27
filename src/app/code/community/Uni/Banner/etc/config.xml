@@ -31,8 +31,19 @@
                 </Uni_Banner>
             </modules>
         </translate>
+        <events>
+            <core_block_abstract_to_html_after>
+                <observers>
+                    <uni_banner>
+                        <type>singleton</type>
+                        <class>banner/observer</class>
+                        <method>coreBlockAbstractToHtmlAfter</method>
+                    </uni_banner>
+                </observers>
+            </core_block_abstract_to_html_after>
+        </events>
     </frontend>
-     
+
     <admin>
         <routers>
             <banner>
@@ -44,7 +55,7 @@
             </banner>
         </routers>
     </admin>
-    
+
     <adminhtml>
         <menu>
             <banner module="banner">
@@ -135,7 +146,7 @@
         <blocks>
             <banner>
                 <class>Uni_Banner_Block</class>
-            </banner>            
+            </banner>
         </blocks>
         <helpers>
             <banner>

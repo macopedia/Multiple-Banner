@@ -1,25 +1,37 @@
 <?php
+
 /**
  * Unicode Systems
+ *
  * @category   Uni
  * @package    Uni_Banner
  * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract {
+class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
+{
+    const CACHE_TAG = 'banner';
 
-    public function _construct() {
+    /**
+     * Model cache tag for clear cache in after save and after delete
+     */
+    protected $_cacheTag        = self::CACHE_TAG;
+
+    public function _construct()
+    {
         parent::_construct();
         $this->_init('banner/banner');
     }
 
-    public function getAllAvailBannerIds(){
+    public function getAllAvailBannerIds()
+    {
         $collection = Mage::getResourceModel('banner/banner_collection')
-                        ->getAllIds();
+            ->getAllIds();
         return $collection;
     }
 
-    public function getAllBanners() {
+    public function getAllBanners()
+    {
         $collection = Mage::getResourceModel('banner/banner_collection');
         $collection->getSelect()->where('status = ?', 1);
         $data = array();
@@ -29,7 +41,8 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract {
         return $data;
     }
 
-    public function getDataByBannerIds($bannerIds) {
+    public function getDataByBannerIds($bannerIds)
+    {
         $data = array();
         if ($bannerIds != '') {
 
@@ -51,7 +64,7 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract {
 
     /**
      * Get current store id
-     * 
+     *
      * @return int
      */
     protected function _getCurrentStoreId()
