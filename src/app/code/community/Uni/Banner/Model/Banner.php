@@ -12,6 +12,8 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
 {
     const CACHE_TAG = 'banner';
 
+    const VARNISH_TAG = 'banner-';
+
     /**
      * Model cache tag for clear cache in after save and after delete
      */
@@ -70,5 +72,21 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
     protected function _getCurrentStoreId()
     {
         return Mage::app()->getStore()->getId();
+    }
+
+    public function save()
+    {
+        parent::save();
+        if(Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
+            Mage::helper('aoestatic')->purgeTags(self::VARNISH_TAG.$this->getId());
+        }
+    }
+
+    public function delete()
+    {
+        parent::delete();
+        if(Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
+            Mage::helper('aoestatic')->purgeTags(self::VARNISH_TAG.$this->getId());
+        }
     }
 }
