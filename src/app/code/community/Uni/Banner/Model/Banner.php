@@ -71,4 +71,20 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
     {
         return Mage::app()->getStore()->getId();
     }
+
+    public function save()
+    {
+        if(class_exists('Aoe_Static_Helper_Data')) {
+            Mage::helper('aoestatic')->purgeTags('banner-'.$this->getId());
+        }
+        parent::save();
+    }
+
+    public function delete()
+    {
+        if(class_exists('Aoe_Static_Helper_Data')) {
+            Mage::helper('aoestatic')->purgeTags('banner-'.$this->getId());
+        }
+        parent::delete();
+    }
 }
