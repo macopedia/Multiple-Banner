@@ -4,5 +4,4 @@ src/app/design/adminhtml/default/default/layout/unibanner.xml app/design/adminht
 src/app/design/adminhtml/default/default/template/unibanner/ app/design/adminhtml/default/default/template/unibanner/
 src/app/design/frontend/base/default/template/unibanner/ app/design/frontend/base/default/template/unibanner/
 src/app/design/frontend/base/default/layout/unibanner.xml app/design/frontend/base/default/layout/unibanner.xml
-src/media/custom/  media/custom/
 src/skin/frontend/base/default/unibanner/   skin/frontend/base/default/unibanner/
