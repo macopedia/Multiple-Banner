@@ -48,11 +48,10 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
         $data = array();
         if ($bannerIds != '') {
 
-            $collection = Mage::getResourceModel('banner/banner_collection');
-            $collection->getSelect()
-                ->where('banner_id IN (' . $bannerIds . ')')
-                ->where('store = ?', $this->_getCurrentStoreId())
-                ->order('sort_order');
+            $collection = $this->getCollection()
+                ->addIdFilter($bannerIds)
+                ->addStoreFilter($this->_getCurrentStoreId())
+                ->setOrder('sort_order');
 
             foreach ($collection as $record) {
                 $status = $record->getStatus();
@@ -74,8 +73,14 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
         return Mage::app()->getStore()->getId();
     }
 
+    public function getStores()
+    {
+        return explode(',', $this->getData('stores'));
+    }
+
     public function save()
     {
+        $this->setStores(join(',', $this->getData('stores')));
         parent::save();
         if(Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
             Mage::helper('aoestatic')->purgeTags(self::VARNISH_TAG.$this->getId());

@@ -15,7 +15,7 @@ class Uni_Banner_Block_Banner_Single extends Mage_Core_Block_Template
     {
         return Mage::getModel('banner/banner')->getCollection()
             ->addFieldToFilter('status', 1)
-            ->addFieldToFilter('store', Mage::app()->getStore()->getId())
+            ->addStoreFilter(Mage::app()->getStore()->getId())
             ->addFieldToFilter('identifier', $id)->getFirstItem();
     }
 

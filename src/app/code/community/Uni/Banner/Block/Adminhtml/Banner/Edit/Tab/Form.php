@@ -35,10 +35,10 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
                 'name' => 'identifier',
             ));
 
-        $field = $fieldset->addField('store', 'select', array(
+        $field = $fieldset->addField('stores', 'multiselect', array(
             'label'    => Mage::helper('banner')->__('Store View'),
             'title'    => Mage::helper('banner')->__('Store View'),
-            'name'     => 'store',
+            'name'     => 'stores',
             'required' => true,
             'values'   => $this->_getStoreValuesForForm(),
         ));
@@ -87,7 +87,7 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
                 'name' => 'banner_content',
                 'label' => Mage::helper('cms')->__('Content'),
                 'title' => Mage::helper('cms')->__('Content'),
-                'style' => 'width:600px; height:250px;',                
+                'style' => 'width:600px; height:250px;',
                 'wysiwyg' => false,
                 'required' => false,
             ));
