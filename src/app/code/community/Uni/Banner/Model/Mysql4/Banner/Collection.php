@@ -47,9 +47,9 @@ class Uni_Banner_Model_Mysql4_Banner_Collection extends Mage_Core_Model_Mysql4_C
     public function addIdFilter($ids)
     {
         if (!is_array($ids)) {
-            $ids = array($ids);
+            $ids = explode(',',$ids);
         }
-        $this->addFieldToFilter('banner_id', array('eq' => $ids));
+        $this->addFieldToFilter('banner_id', array('in' => $ids));
         return $this;
     }
 }
