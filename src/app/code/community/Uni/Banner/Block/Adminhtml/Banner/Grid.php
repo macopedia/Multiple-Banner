@@ -52,19 +52,24 @@ class Uni_Banner_Block_Adminhtml_Banner_Grid extends Uni_Banner_Block_Adminhtml_
             ));
 
 
-        $this->addColumn('store', array(
-                'header' => Mage::helper('banner')->__('Store view'),
-                'type' => 'store',
-                'index' => 'store',
-                'store_all' => false,
-                'store_view' => true
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('stores', array(
+                'header'        => Mage::helper('cms')->__('Store View'),
+                'index'         => 'stores',
+                'type'          => 'store',
+                'store_all'     => true,
+                'store_view'    => true,
+                'sortable'      => false,
+                'filter_condition_callback'
+                                => array($this, '_filterStoreCondition'),
             ));
+        }
 
         $this->addColumn('link', array(
             'header' => Mage::helper('banner')->__('Web Url'),
             'width' => '150px',
             'index' => 'link',
-        ));        
+        ));
 
         $this->addColumn('banner_type', array(
             'header' => Mage::helper('banner')->__('Type'),
@@ -166,4 +171,12 @@ class Uni_Banner_Block_Adminhtml_Banner_Grid extends Uni_Banner_Block_Adminhtml_
         return $this->getUrl('*/*/edit', array('id' => $row->getId()));
     }
 
+    protected function _filterStoreCondition($collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return;
+        }
+
+        $this->getCollection()->addStoreFilter($value);
+    }
 }
