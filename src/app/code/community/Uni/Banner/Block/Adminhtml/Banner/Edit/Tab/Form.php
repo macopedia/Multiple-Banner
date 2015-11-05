@@ -23,6 +23,11 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
             'name' => 'title',
         ));
 
+        $fieldset->addField('subtitle', 'text', array(
+            'label' => Mage::helper('banner')->__('Subtitle'),
+            'name' => 'subtitle'
+        ));
+
         $fieldset->addField('identifier', 'text', array(
                 'label' => Mage::helper('banner')->__('Identifier'),
                 'class' => 'validate-code',
@@ -31,14 +36,15 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
             ));
 
         $field = $fieldset->addField('store', 'select', array(
-                'label'    => Mage::helper('banner')->__('Store View'),
-                'title'    => Mage::helper('banner')->__('Store View'),
-                'name'     => 'store',
-                'required' => true,
-                'values'   => $this->_getStoreValuesForForm(),
-            ));
+            'label'    => Mage::helper('banner')->__('Store View'),
+            'title'    => Mage::helper('banner')->__('Store View'),
+            'name'     => 'store',
+            'required' => true,
+            'values'   => $this->_getStoreValuesForForm(),
+        ));
         $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
         $field->setRenderer($renderer);
+
 
         $fieldset->addField('link', 'text', array(
             'label' => Mage::helper('banner')->__('Web Url'),

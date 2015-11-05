@@ -18,7 +18,6 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
     }
 
     public function indexAction() {
-        Mage::helper('unicommon')->c($this->getRequest()->getModuleName());
         $this->_initAction()
                 ->renderLayout();
     }
