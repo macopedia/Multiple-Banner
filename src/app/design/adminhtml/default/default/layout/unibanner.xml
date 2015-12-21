@@ -9,17 +9,17 @@
  */
  -->
 <layout version="0.1.0">
-    <banner_adminhtml_banner_index>
+    <adminhtml_banner_index>
         <reference name="content">
             <block type="banner/adminhtml_banner" name="banner" />
         </reference>
-    </banner_adminhtml_banner_index>
-    <banner_adminhtml_bannergroup_index>
+    </adminhtml_banner_index>
+    <adminhtml_bannergroup_index>
         <reference name="content">
             <block type="banner/adminhtml_bannergroup" name="bannergroup" />
         </reference>
-    </banner_adminhtml_bannergroup_index>
-    <banner_adminhtml_banner_edit>
+    </adminhtml_bannergroup_index>
+    <adminhtml_banner_edit>
         <update handle="editor"/>
-    </banner_adminhtml_banner_edit>
+    </adminhtml_banner_edit>
 </layout>

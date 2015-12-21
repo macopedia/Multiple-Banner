@@ -8,6 +8,11 @@
  */
 class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Action {
 
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('admin/banner');
+    }
+
     protected function _initAction() {
         $this->_title(Mage::helper('banner')->__('Banner Manager'));
         $this->loadLayout()

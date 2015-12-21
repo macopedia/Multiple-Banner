@@ -8,6 +8,11 @@
  */
 class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controller_Action {
 
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('admin/banner');
+    }
+
     protected function _initAction() {
         $this->loadLayout()
                 ->_setActiveMenu('banner/items')
@@ -121,7 +126,7 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
         if ($this->getRequest()->getParam('id') > 0) {
             try {
                 $model = Mage::getModel('banner/bannergroup')->load($this->getRequest()->getParam('id'));
-                $filePath = Mage::getBaseDir('media') . DS . 'custom' . DS . 'banners' . DS . 'resize' . DS . $model->getGroupCode();              
+                $filePath = Mage::getBaseDir('media') . DS . 'custom' . DS . 'banners' . DS . 'resize' . DS . $model->getGroupCode();
                 $model->delete();
                 $this->removeFile($filePath);
 
