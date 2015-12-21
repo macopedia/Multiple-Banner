@@ -46,13 +46,14 @@
 
     <admin>
         <routers>
-            <banner>
+            <adminhtml>
                 <use>admin</use>
                 <args>
-                    <module>Uni_Banner</module>
-                    <frontName>banner</frontName>
+                    <modules>
+                        <uni_banner before="Mage_Adminhtml">Uni_Banner_Adminhtml</uni_banner>
+                    </modules>
                 </args>
-            </banner>
+            </adminhtml>
         </routers>
     </admin>
 
@@ -65,12 +66,12 @@
                     <banner module="banner">
                         <title>Manage Banners</title>
                         <sort_order>0</sort_order>
-                        <action>banner/adminhtml_banner</action>
+                        <action>adminhtml/banner</action>
                     </banner>
                     <bannergroup module="banner">
                         <title>Manage Banner Groups</title>
                         <sort_order>1</sort_order>
-                        <action>banner/adminhtml_bannergroup</action>
+                        <action>adminhtml/bannergroup</action>
                     </bannergroup>
                     <bannersetting module="banner">
                         <title>Settings</title>
