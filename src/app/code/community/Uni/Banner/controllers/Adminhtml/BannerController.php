@@ -74,8 +74,10 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
                 $path = Mage::getBaseDir('media').DS.'custom'.DS.'banners';
 
                 $uploader->save($path, $fname);
+                $filename = 'custom/banners/'.$fname;
+                $imagedata['filename'] = $filename;
 
-                $imagedata['filename'] = 'custom/banners/'.$fname;
+                Mage::dispatchEvent('ui_banner_upload_image_after', array('path' => $path, 'filename' => $fname));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
@@ -109,6 +111,7 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
                 }
 
                 $model->save();
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('banner')->__('Item was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
 
