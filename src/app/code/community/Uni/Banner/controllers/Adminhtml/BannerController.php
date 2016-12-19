@@ -84,6 +84,29 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
                 return;
             }
         }
+        if (!empty($_FILES['product_image_path']['name'])) {
+            try {
+                $ext = substr($_FILES['product_image_path']['name'], strrpos($_FILES['product_image_path']['name'], '.') + 1);
+                $fname = 'product-image-' . time() . '.' . $ext;
+                $uploader = new Varien_File_Uploader('product_image_path');
+                $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png')); // or pdf or anything
+
+                $uploader->setAllowRenameFiles(true);
+                $uploader->setFilesDispersion(false);
+
+                $path = Mage::getBaseDir('media').DS.'custom'.DS.'banners';
+
+                $uploader->save($path, $fname);
+                $filename = 'custom/banners/'.$fname;
+                $imagedata['product_image_path'] = $filename;
+
+                Mage::dispatchEvent('ui_banner_upload_image_after', array('path' => $path, 'filename' => $fname));
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                return;
+            }
+        }
         if ($data = $this->getRequest()->getPost()) {
             if (!empty($imagedata['filename'])) {
                 $data['filename'] = $imagedata['filename'];
@@ -96,6 +119,19 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
                     $data['filename'] = '';
                 } else {
                     unset($data['filename']);
+                }
+            }
+            if (!empty($imagedata['product_image_path'])) {
+                $data['product_image_path'] = $imagedata['product_image_path'];
+            } else {
+                if (isset($data['product_image_path']['delete']) && $data['product_image_path']['delete'] == 1) {
+                    if ($data['product_image_path']['value'] != '') {
+                        $_helper = Mage::helper('banner');
+                        $this->removeFile(Mage::getBaseDir('media').DS.$_helper->updateDirSepereator($data['product_image_path']['value']));
+                    }
+                    $data['product_image_path'] = '';
+                } else {
+                    unset($data['product_image_path']);
                 }
             }
             $model = Mage::getModel('banner/banner');

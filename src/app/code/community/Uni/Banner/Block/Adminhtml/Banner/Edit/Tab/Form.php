@@ -137,6 +137,20 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
                                                               'label' => Mage::helper('banner')->__('No'),),),)
         );
 
+        $fieldset->addField('product_id', 'text', array(
+            'label' => Mage::helper('banner')->__('Product ID'),
+            'class' => 'required-entry',
+            'required' => false,
+            'name' => 'product_id',
+        ));
+
+
+        $fieldset->addField('product_image_path', 'image', array(
+            'label' => Mage::helper('banner')->__('Product image'),
+            'required' => false,
+            'name' => 'product_image_path',
+        ));
+
         if (Mage::getSingleton('adminhtml/session')->getBannerData()) {
             $form->setValues(Mage::getSingleton('adminhtml/session')->getBannerData());
             Mage::getSingleton('adminhtml/session')->setBannerData(null);
