@@ -24,4 +24,34 @@ class Uni_Banner_Model_Observer
         }
     }
 
+    public function scheduleCheck()
+    {
+        $timeNow = gmdate('U');
+        /** @var Uni_Banner_Model_Mysql4_Banner_Collection $bannersToEnable */
+        $bannersToEnable = Mage::getModel('banner/banner')->getCollection()
+            ->addFieldToFilter('schedule_enabled', 1)
+            ->addFieldToFilter('status', Uni_Banner_Model_Banner::STATUS_DISABLED)
+            ->addFieldToFilter('from_date', array('to' => $timeNow, 'date' => true))
+            ->addFieldToFilter('to_date', array('from' => $timeNow, 'date' => true));
+        foreach ($bannersToEnable as $banner) {
+            try {
+                $banner->save();
+            } catch (Exception $e) {
+                Mage::logException($e);
+            }
+        }
+
+        /** @var Uni_Banner_Model_Mysql4_Banner_Collection $bannersToDisable */
+        $bannersToDisable = Mage::getModel('banner/banner')->getCollection()
+            ->addFieldToFilter('schedule_enabled', 1)
+            ->addFieldToFilter('status', Uni_Banner_Model_Banner::STATUS_ENABLED)
+            ->addFieldToFilter('to_date', array('to' => $timeNow, 'date' => true));
+        foreach ($bannersToDisable as $banner) {
+            try {
+                $banner->save();
+            } catch (Exception $e) {
+                Mage::logException($e);
+            }
+        }
+    }
 }

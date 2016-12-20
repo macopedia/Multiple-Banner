@@ -7,33 +7,43 @@
  * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Block_Widget_Form {
+class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Block_Widget_Form
+{
 
-    protected function _prepareForm() {
+    protected function _prepareForm()
+    {
+        $data = null;
+        if (Mage::getSingleton('adminhtml/session')->getBannerData()) {
+            $data = Mage::getSingleton('adminhtml/session')->getBannerData();
+            Mage::getSingleton('adminhtml/session')->setBannerData(null);
+        } elseif (Mage::registry('banner_data')) {
+            $data = Mage::registry('banner_data')->getData();
+        }
         $form = new Varien_Data_Form();
         $this->setForm($form);
-        $fieldset = $form->addFieldset('banner_form', array('legend' => Mage::helper('banner')->__('Item information')));
+        $fieldset = $form->addFieldset('banner_form',
+            array('legend' => Mage::helper('banner')->__('Item information')));
         $version = substr(Mage::getVersion(), 0, 3);
         //$config = (($version == '1.4' || $version == '1.5') ? "'config' => Mage::getSingleton('banner/wysiwyg_config')->getConfig()" : "'class'=>''");
 
         $fieldset->addField('title', 'text', array(
-            'label' => Mage::helper('banner')->__('Title'),
-            'class' => 'required-entry',
+            'label'    => Mage::helper('banner')->__('Title'),
+            'class'    => 'required-entry',
             'required' => true,
-            'name' => 'title',
+            'name'     => 'title',
         ));
 
         $fieldset->addField('subtitle', 'text', array(
             'label' => Mage::helper('banner')->__('Subtitle'),
-            'name' => 'subtitle'
+            'name'  => 'subtitle'
         ));
 
         $fieldset->addField('identifier', 'text', array(
-                'label' => Mage::helper('banner')->__('Identifier'),
-                'class' => 'validate-code',
-                'required' => true,
-                'name' => 'identifier',
-            ));
+            'label'    => Mage::helper('banner')->__('Identifier'),
+            'class'    => 'validate-code',
+            'required' => true,
+            'name'     => 'identifier',
+        ));
 
         $field = $fieldset->addField('stores', 'multiselect', array(
             'label'    => Mage::helper('banner')->__('Store View'),
@@ -48,12 +58,12 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
 
         $fieldset->addField('link', 'text', array(
             'label' => Mage::helper('banner')->__('Web Url'),
-            'name' => 'link',
+            'name'  => 'link',
         ));
 
         $fieldset->addField('banner_type', 'select', array(
-            'label' => Mage::helper('banner')->__('Type'),
-            'name' => 'banner_type',
+            'label'  => Mage::helper('banner')->__('Type'),
+            'name'   => 'banner_type',
             'values' => array(
                 array(
                     'value' => 0,
@@ -67,60 +77,60 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
         ));
 
         $fieldset->addField('filename', 'image', array(
-            'label' => Mage::helper('banner')->__('Image'),
+            'label'    => Mage::helper('banner')->__('Image'),
             'required' => false,
-            'name' => 'filename',
+            'name'     => 'filename',
         ));
 
-        if (in_array($version, array('1.4','1.5','1.6','1.7'))) {
+        if (in_array($version, array('1.4', '1.5', '1.6', '1.7'))) {
             $fieldset->addField('banner_content', 'editor', array(
-                'name' => 'banner_content',
-                'label' => Mage::helper('banner')->__('Content'),
-                'title' => Mage::helper('banner')->__('Content'),
-                'style' => 'width:600px; height:250px;',
-                'config' => Mage::getSingleton('banner/wysiwyg_config')->getConfig(),
-                'wysiwyg' => true,
+                'name'     => 'banner_content',
+                'label'    => Mage::helper('banner')->__('Content'),
+                'title'    => Mage::helper('banner')->__('Content'),
+                'style'    => 'width:600px; height:250px;',
+                'config'   => Mage::getSingleton('banner/wysiwyg_config')->getConfig(),
+                'wysiwyg'  => true,
                 'required' => false,
             ));
         } else {
             $fieldset->addField('banner_content', 'editor', array(
-                'name' => 'banner_content',
-                'label' => Mage::helper('cms')->__('Content'),
-                'title' => Mage::helper('cms')->__('Content'),
-                'style' => 'width:600px; height:250px;',
-                'wysiwyg' => false,
+                'name'     => 'banner_content',
+                'label'    => Mage::helper('cms')->__('Content'),
+                'title'    => Mage::helper('cms')->__('Content'),
+                'style'    => 'width:600px; height:250px;',
+                'wysiwyg'  => false,
                 'required' => false,
             ));
         }
 
         $fieldset->addField('banner_width', 'text', array(
-                'label' => Mage::helper('banner')->__('Banner Width [in px]'),
-                'required' => false,
-                'name' => 'banner_width',
-            ));
+            'label'    => Mage::helper('banner')->__('Banner Width [in px]'),
+            'required' => false,
+            'name'     => 'banner_width',
+        ));
 
         $fieldset->addField('banner_height', 'text', array(
-                'label' => Mage::helper('banner')->__('Banner Height [in px]'),
-                'required' => false,
-                'name' => 'banner_height',
-            ));
+            'label'    => Mage::helper('banner')->__('Banner Height [in px]'),
+            'required' => false,
+            'name'     => 'banner_height',
+        ));
 
         $fieldset->addField('sort_order', 'text', array(
             'label' => Mage::helper('banner')->__('Sort Order'),
-            'name' => 'sort_order',
+            'name'  => 'sort_order',
         ));
 
         $fieldset->addField('status', 'select', array(
-            'label' => Mage::helper('banner')->__('Status'),
-            'class' => 'required-entry',
-            'name' => 'status',
+            'label'  => Mage::helper('banner')->__('Status'),
+            'class'  => 'required-entry',
+            'name'   => 'status',
             'values' => array(
                 array(
-                    'value' => 1,
+                    'value' => Uni_Banner_Model_Banner::STATUS_ENABLED,
                     'label' => Mage::helper('banner')->__('Enabled'),
                 ),
                 array(
-                    'value' => 2,
+                    'value' => Uni_Banner_Model_Banner::STATUS_DISABLED,
                     'label' => Mage::helper('banner')->__('Disabled'),
                 ),
             ),
@@ -128,50 +138,82 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
 
 
         $fieldset->addField(
-            'mobile', 'select', array('name'   => 'mobile', 'label' => Mage::helper('banner')->__('Mobile'),
-                                      'title'  => Mage::helper('banner')->__('Mobile'), 'disabled' => false,
+            'mobile', 'select', array(
+                'name'     => 'mobile',
+                'label'    => Mage::helper('banner')->__('Mobile'),
+                'title'    => Mage::helper('banner')->__('Mobile'),
+                'disabled' => false,
 
-                                      'values' => array(array('value' => 1,
-                                                              'label' => Mage::helper('banner')->__('Yes'),),
-                                                        array('value' => 0,
-                                                              'label' => Mage::helper('banner')->__('No'),),),)
+                'values' => array(
+                    array(
+                        'value' => 1,
+                        'label' => Mage::helper('banner')->__('Yes'),
+                    ),
+                    array(
+                        'value' => 0,
+                        'label' => Mage::helper('banner')->__('No'),
+                    ),
+                ),
+            )
         );
 
         $fieldset->addField('product_id', 'text', array(
-            'label' => Mage::helper('banner')->__('Product ID'),
-            'class' => 'required-entry',
+            'label'    => Mage::helper('banner')->__('Product ID'),
+            'class'    => 'required-entry',
             'required' => false,
-            'name' => 'product_id',
+            'name'     => 'product_id',
         ));
 
         $fieldset->addField('product_title', 'text', array(
             'label' => Mage::helper('banner')->__('Product title'),
-            'name' => 'product_title'
+            'name'  => 'product_title'
         ));
 
         $fieldset->addField('badge_label', 'text', array(
             'label' => Mage::helper('banner')->__('Badge label'),
-            'name' => 'badge_label'
+            'name'  => 'badge_label'
         ));
 
         $fieldset->addField('badge_color', 'text', array(
             'label' => Mage::helper('banner')->__('Badge color'),
-            'name' => 'badge_color'
+            'name'  => 'badge_color'
         ));
 
 
         $fieldset->addField('product_image_path', 'image', array(
-            'label' => Mage::helper('banner')->__('Product image'),
+            'label'    => Mage::helper('banner')->__('Product image'),
             'required' => false,
-            'name' => 'product_image_path',
+            'name'     => 'product_image_path',
         ));
 
-        if (Mage::getSingleton('adminhtml/session')->getBannerData()) {
-            $form->setValues(Mage::getSingleton('adminhtml/session')->getBannerData());
-            Mage::getSingleton('adminhtml/session')->setBannerData(null);
-        } elseif (Mage::registry('banner_data')) {
-            $form->setValues(Mage::registry('banner_data')->getData());
-        }
+        $fieldset->addField('schedule_enabled', 'checkbox', array(
+            'label'   => Mage::helper('banner')->__('Enable schedule'),
+            'name'    => 'schedule_enabled',
+            'value'   => 1,
+            'checked' => $data && $data['schedule_enabled'] ? 1 : 0,
+        ));
+
+        $dateFormatIso = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+
+        $fieldset->addField('from_date', 'date', array(
+            'name'   => 'from_date',
+            'time'   => true,
+            'label'  => Mage::helper('banner')->__('From Date'),
+            'title'  => Mage::helper('banner')->__('From Date'),
+            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'format' => $dateFormatIso
+        ));
+
+        $fieldset->addField('to_date', 'date', array(
+            'name'   => 'to_date',
+            'time'   => true,
+            'label'  => Mage::helper('banner')->__('To Date'),
+            'title'  => Mage::helper('banner')->__('To Date'),
+            'image'  => $this->getSkinUrl('images/grid-cal.gif'),
+            'format' => $dateFormatIso
+        ));
+
+        $form->setValues($data);
         return parent::_prepareForm();
     }
 

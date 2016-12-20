@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Uni_Banner>
-            <version>0.3.5</version>
+            <version>0.3.6</version>
         </Uni_Banner>
     </modules>
     <frontend>
@@ -183,4 +183,16 @@
             </banner>
         </banner>
     </default>
+    <crontab>
+        <jobs>
+            <banner_schedule_check>
+                <schedule>
+                    <cron_expr>* * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>banner/observer::scheduleCheck</model>
+                </run>
+            </banner_schedule_check>
+        </jobs>
+    </crontab>
 </config>
