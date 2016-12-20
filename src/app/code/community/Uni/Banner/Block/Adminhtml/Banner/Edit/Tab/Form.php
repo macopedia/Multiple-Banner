@@ -144,6 +144,21 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
             'name' => 'product_id',
         ));
 
+        $fieldset->addField('product_title', 'text', array(
+            'label' => Mage::helper('banner')->__('Product title'),
+            'name' => 'product_title'
+        ));
+
+        $fieldset->addField('badge_label', 'text', array(
+            'label' => Mage::helper('banner')->__('Badge label'),
+            'name' => 'badge_label'
+        ));
+
+        $fieldset->addField('badge_color', 'text', array(
+            'label' => Mage::helper('banner')->__('Badge color'),
+            'name' => 'badge_color'
+        ));
+
 
         $fieldset->addField('product_image_path', 'image', array(
             'label' => Mage::helper('banner')->__('Product image'),
