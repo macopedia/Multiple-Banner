@@ -118,7 +118,7 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
             if ($fromDate > $toDate) {
                 Mage::throwException(Mage::helper('banner')->__('To Date must be after From Date'));
             }
-            $timeNow = gmdate('U');
+            $timeNow = Mage::getModel('core/date')->timestamp();
             if ($timeNow > $fromDate && $timeNow < $toDate) {
                 $this->setStatus(self::STATUS_ENABLED);
             } else {

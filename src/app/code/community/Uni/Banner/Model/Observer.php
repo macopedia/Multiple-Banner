@@ -26,7 +26,7 @@ class Uni_Banner_Model_Observer
 
     public function scheduleCheck()
     {
-        $timeNow = gmdate('U');
+        $timeNow = Mage::getModel('core/date')->timestamp();
         /** @var Uni_Banner_Model_Mysql4_Banner_Collection $bannersToEnable */
         $bannersToEnable = Mage::getModel('banner/banner')->getCollection()
             ->addFieldToFilter('schedule_enabled', 1)
