@@ -149,6 +149,12 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
             'name' => 'product_title'
         ));
 
+        $fieldset->addField('product_position', 'text', array(
+            'label' => Mage::helper('banner')->__('Product position'),
+            'name'  => 'product_position',
+            'note' => 'eg. <strong> top: 20px; right: 50px; </strong> <br/> remember about semicolon!'
+        ));
+
         $fieldset->addField('badge_label', 'text', array(
             'label' => Mage::helper('banner')->__('Badge label'),
             'name' => 'badge_label'
