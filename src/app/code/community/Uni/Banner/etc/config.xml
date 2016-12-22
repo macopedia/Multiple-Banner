@@ -183,4 +183,16 @@
             </banner>
         </banner>
     </default>
+    <crontab>
+        <jobs>
+            <banner_schedule_check>
+                <schedule>
+                    <cron_expr>* * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>banner/observer::scheduleCheck</model>
+                </run>
+            </banner_schedule_check>
+        </jobs>
+    </crontab>
 </config>

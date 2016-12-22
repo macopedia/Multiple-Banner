@@ -14,10 +14,13 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
 
     const VARNISH_TAG = 'banner-';
 
+    const STATUS_ENABLED  = 1;
+    const STATUS_DISABLED = 2;
+
     /**
      * Model cache tag for clear cache in after save and after delete
      */
-    protected $_cacheTag        = self::CACHE_TAG;
+    protected $_cacheTag = self::CACHE_TAG;
 
     public function _construct()
     {
@@ -82,16 +85,50 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
     {
         $this->setStores(join(',', $this->getData('stores')));
         parent::save();
-        if(Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
-            Mage::helper('aoestatic')->purgeTags(self::VARNISH_TAG.$this->getId());
+        if (Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
+            Mage::helper('aoestatic')->purgeTags(self::VARNISH_TAG . $this->getId());
         }
     }
 
     public function delete()
     {
         parent::delete();
-        if(Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
-            Mage::helper('aoestatic')->purgeTags(self::VARNISH_TAG.$this->getId());
+        if (Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
+            Mage::helper('aoestatic')->purgeTags(self::VARNISH_TAG . $this->getId());
         }
+    }
+
+    /**
+     * Before save. Validation of data
+     *
+     * @return Uni_Banner_Model_Banner
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        if ($this->getScheduleEnabled()) {
+            $fromDate = $this->_getResource()->mktime($this->getFromDate());
+            $toDate = $this->_getResource()->mktime($this->getToDate());
+            if (!$fromDate) {
+                Mage::throwException(Mage::helper('banner')->__('From Date is required.'));
+            }
+            if (!$toDate) {
+                Mage::throwException(Mage::helper('banner')->__('To Date is required.'));
+            }
+            if ($fromDate > $toDate) {
+                Mage::throwException(Mage::helper('banner')->__('To Date must be after From Date'));
+            }
+            $timeNow = Mage::getModel('core/date')->timestamp();
+            if ($timeNow > $fromDate && $timeNow < $toDate) {
+                $this->setStatus(self::STATUS_ENABLED);
+            } else {
+                $this->setStatus(self::STATUS_DISABLED);
+            }
+        } else {
+            $this->setFromDate(null);
+            $this->setToDate(null);
+        }
+
+        return $this;
     }
 }
