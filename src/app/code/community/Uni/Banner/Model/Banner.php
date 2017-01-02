@@ -22,6 +22,8 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
      */
     protected $_cacheTag = self::CACHE_TAG;
 
+    protected $_product;
+
     public function _construct()
     {
         parent::_construct();
@@ -83,19 +85,17 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
 
     public function save()
     {
-        $this->setStores(join(',', $this->getData('stores')));
-        parent::save();
-        if (Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
-            Mage::helper('aoestatic')->purgeTags(self::VARNISH_TAG . $this->getId());
+        if (is_array($this->getData('stores'))) {
+            $this->setStores(implode(',', $this->getData('stores')));
         }
+        parent::save();
+        Mage::helper('banner')->purgeCacheTag(self::VARNISH_TAG . $this->getId());
     }
 
     public function delete()
     {
         parent::delete();
-        if (Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
-            Mage::helper('aoestatic')->purgeTags(self::VARNISH_TAG . $this->getId());
-        }
+        Mage::helper('banner')->purgeCacheTag(self::VARNISH_TAG . $this->getId());
     }
 
     /**
@@ -130,5 +130,17 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * @return Mage_Catalog_Model_Product | null
+     */
+    public function getProduct()
+    {
+        if (!$this->_product) {
+            $sku = $this->getProductId();
+            $this->_product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
+        }
+        return $this->_product;
     }
 }

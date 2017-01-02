@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unicode Systems
  * @category   Uni
@@ -6,7 +7,8 @@
  * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract {
+class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
+{
 
     protected static $egridImgDir = null;
     protected static $egridImgURL = null;
@@ -14,56 +16,81 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract {
     protected static $egridImgThumbWidth = null;
     protected $_allowedExtensions = Array();
 
-    public function __construct() {
+    public function __construct()
+    {
         self::$egridImgDir = Mage::getBaseDir('media') . DS;
         self::$egridImgURL = Mage::getBaseUrl('media');
         self::$egridImgThumb = "thumb/";
         self::$egridImgThumbWidth = 100;
     }
 
-    public function updateDirSepereator($path){
+    public function updateDirSepereator($path)
+    {
         return str_replace('\\', DS, $path);
     }
 
-    public function getImageUrl($image_file) {
+    public function getImageUrl($image_file)
+    {
         $url = false;
-        if (file_exists(self::$egridImgDir . self::$egridImgThumb . $this->updateDirSepereator($image_file)))
+        if (file_exists(self::$egridImgDir . self::$egridImgThumb . $this->updateDirSepereator($image_file))) {
             $url = self::$egridImgURL . self::$egridImgThumb . $image_file;
-        else
+        } else {
             $url = self::$egridImgURL . $image_file;
+        }
         return $url;
     }
 
-    public function getFileExists($image_file) {
+    public function getFileExists($image_file)
+    {
         $file_exists = false;
         $file_exists = file_exists(self::$egridImgDir . $this->updateDirSepereator($image_file));
         return $file_exists;
     }
 
-    public function getImageThumbSize($image_file) {
+    public function getImageThumbSize($image_file)
+    {
         $img_file = $this->updateDirSepereator(self::$egridImgDir . $image_file);
-        if ($image_file == '' || !file_exists($img_file))
+        if ($image_file == '' || !file_exists($img_file)) {
             return false;
+        }
         list($width, $height, $type, $attr) = getimagesize($img_file);
 
         if ($width == 0 || $height == 0) {
             return false;
         }
-        $a_height = (int) ((self::$egridImgThumbWidth / $width) * $height);
+        $a_height = (int)((self::$egridImgThumbWidth / $width) * $height);
         return Array('width' => self::$egridImgThumbWidth, 'height' => $a_height);
     }
 
-    function deleteFiles($image_file) {
+    public function deleteFiles($image_file)
+    {
         $pass = true;
-        if (!unlink(self::$egridImgDir . $image_file))
+        if (!unlink(self::$egridImgDir . $image_file)) {
             $pass = false;
-        if (!unlink(self::$egridImgDir . self::$egridImgThumb . $image_file))
+        }
+        if (!unlink(self::$egridImgDir . self::$egridImgThumb . $image_file)) {
             $pass = false;
+        }
         return $pass;
     }
-    
-    public function getBannerUrl(){
+
+    public function getBannerUrl()
+    {
         return $this->_getUrl('banner');
     }
 
+    public function purgeCacheTag($tag)
+    {
+        if (Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
+            Mage::helper('aoestatic')->purgeTags($tag);
+        }
+    }
+
+    public function addCacheTag($tag)
+    {
+        if (Mage::helper('core')->isModuleEnabled('Aoe_Static')) {
+            Mage::getSingleton('aoestatic/cache_control')->addTag($tag);
+        }
+
+    }
 }

@@ -17,9 +17,7 @@ class Uni_Banner_Model_Observer
             /** @var Uni_Banner_Block_Banner_Single $block */
             $block = $observer->getBlock();
             if ($block instanceof Uni_Banner_Block_Banner_Single) {
-                Mage::getSingleton('aoestatic/cache_control')->addTag(Uni_Banner_Model_Banner::VARNISH_TAG
-                    . $block->getBanner($block->getIdentifier())
-                        ->getId());
+                Mage::helper('banner')->addCacheTag(Uni_Banner_Model_Banner::VARNISH_TAG . $block->getBanner($block->getIdentifier())->getId());
             }
         }
     }
