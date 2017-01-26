@@ -40,10 +40,9 @@ class Uni_Banner_Model_Bannergroup extends Mage_Core_Model_Abstract
                 $bannerCollection = Mage::getModel('banner/banner')->getCollection()
                     ->addIdFilter($bannerGroup->getBannerIds())
                     ->addStoreFilter(Mage::app()->getStore()->getId())
-                    ->addFieldToFilter('status', Uni_Banner_Model_Banner::STATUS_ENABLED)
-                    ->setOrder('sort_order');
+                    ->addFieldToFilter('status', Uni_Banner_Model_Banner::STATUS_ENABLED);
                 $this->_banners = array();
-                Mage::getSingleton('core/resource_iterator')->walk($bannerCollection->getSelect(),
+                Mage::getSingleton('core/resource_iterator')->walk($bannerCollection->getSelect()->order('sort_order'),
                     array(
                         array($this, 'callbackValidateBanner')
                     ),
