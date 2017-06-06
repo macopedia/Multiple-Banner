@@ -310,4 +310,9 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
     {
         return $this->_filterDateTime($data, array('from_date', 'to_date'));
     }
+
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('admin/banner/banner');
+    }
 }
