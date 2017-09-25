@@ -33,10 +33,11 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
             'name'     => 'title',
         ));
 
-//        $fieldset->addField('subtitle', 'text', array(
-//            'label' => Mage::helper('banner')->__('Subtitle'),
-//            'name'  => 'subtitle'
-//        ));
+        $fieldset->addField('subtitle', 'text', array(
+            'label' => Mage::helper('banner')->__('Subtitle'),
+            'name'  => 'subtitle',
+            'class' => 'is-html-field'
+        ));
 
         $fieldset->addField('identifier', 'text', array(
             'label'    => Mage::helper('banner')->__('Identifier'),
@@ -169,33 +170,38 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
             'name'     => 'product_id',
         ));
 
-//        $fieldset->addField('product_title', 'text', array(
-//            'label' => Mage::helper('banner')->__('Product title'),
-//            'name'  => 'product_title'
-//        ));
-//
-//        $fieldset->addField('product_position', 'text', array(
-//            'label' => Mage::helper('banner')->__('Product position'),
-//            'name'  => 'product_position',
-//            'note' => 'eg. <strong> top: 20px; right: 50px; </strong> <br/> remember about semicolon!'
-//        ));
-//
-//        $fieldset->addField('badge_label', 'text', array(
-//            'label' => Mage::helper('banner')->__('Badge label'),
-//            'name'  => 'badge_label'
-//        ));
-//
-//        $fieldset->addField('badge_color', 'text', array(
-//            'label' => Mage::helper('banner')->__('Badge color'),
-//            'name'  => 'badge_color'
-//        ));
+        $fieldset->addField('product_title', 'text', array(
+            'label' => Mage::helper('banner')->__('Product title'),
+            'name'  => 'product_title',
+            'class' => 'is-html-field'
+        ));
+
+        $fieldset->addField('product_position', 'text', array(
+            'label' => Mage::helper('banner')->__('Product position'),
+            'name'  => 'product_position',
+            'note' => 'eg. <strong> top: 20px; right: 50px; </strong> <br/> remember about semicolon!',
+            'class' => 'is-html-field'
+        ));
+
+        $fieldset->addField('badge_label', 'text', array(
+            'label' => Mage::helper('banner')->__('Badge label'),
+            'name'  => 'badge_label',
+            'class' => 'is-html-field'
+        ));
+
+        $fieldset->addField('badge_color', 'text', array(
+            'label' => Mage::helper('banner')->__('Badge color'),
+            'name'  => 'badge_color',
+            'class' => 'is-html-field'
+        ));
 
 
-//        $fieldset->addField('product_image_path', 'image', array(
-//            'label'    => Mage::helper('banner')->__('Product image'),
-//            'required' => false,
-//            'name'     => 'product_image_path',
-//        ));
+        $fieldset->addField('product_image_path', 'image', array(
+            'label'    => Mage::helper('banner')->__('Product image'),
+            'required' => false,
+            'name'     => 'product_image_path',
+            'class' => 'is-html-field'
+        ));
 
         $fieldset->addField('schedule_enabled', 'checkbox', array(
             'label'   => Mage::helper('banner')->__('Enable schedule'),

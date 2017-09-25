@@ -21,5 +21,8 @@
     </banner_adminhtml_bannergroup_index>
     <banner_adminhtml_banner_edit>
         <update handle="editor"/>
+        <reference name="js" after="*">
+            <block type="core/template" name="js-handler" template="unibanner/banner-edit.phtml"/>
+        </reference>
     </banner_adminhtml_banner_edit>
 </layout>

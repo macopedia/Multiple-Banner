@@ -1,0 +1,23 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        (function() {
+            var type = document.getElementById('banner_type');
+
+            function toggleHtmlFields(show) {
+                var fields = document.querySelectorAll('.is-html-field');
+                for (var i = 0; i < fields.length; i++) {
+                    var row = fields[i].parentNode.parentNode;
+                    show ? row.removeAttribute('hidden') : row.setAttribute('hidden', true);
+                }
+            }
+
+            if ( typeof type !== 'undefined' ) {
+                type.addEventListener('change', function(){
+                    toggleHtmlFields(parseInt(this.value))
+                }, false);
+
+                toggleHtmlFields(parseInt(type.value));
+            }
+        })();
+    });
+</script>
