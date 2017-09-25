@@ -106,6 +106,7 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
                 'title'    => Mage::helper('cms')->__('Content'),
                 'style'    => 'width:600px; height:250px;',
                 'wysiwyg'  => false,
+                'class'    => 'is-html-field',
                 'required' => false,
             ));
         }
@@ -199,8 +200,7 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
         $fieldset->addField('product_image_path', 'image', array(
             'label'    => Mage::helper('banner')->__('Product image'),
             'required' => false,
-            'name'     => 'product_image_path',
-            'class' => 'is-html-field'
+            'name'     => 'product_image_path'
         ));
 
         $fieldset->addField('schedule_enabled', 'checkbox', array(

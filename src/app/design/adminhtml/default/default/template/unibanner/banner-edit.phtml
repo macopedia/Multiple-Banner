@@ -4,7 +4,7 @@
             var type = document.getElementById('banner_type');
 
             function toggleHtmlFields(show) {
-                var fields = document.querySelectorAll('.is-html-field');
+                var fields = document.querySelectorAll('.is-html-field, #product_image_path');
                 for (var i = 0; i < fields.length; i++) {
                     var row = fields[i].parentNode.parentNode;
                     show ? row.removeAttribute('hidden') : row.setAttribute('hidden', true);
