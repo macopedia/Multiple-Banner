@@ -96,12 +96,12 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
                 return;
             }
         }
-        if (!empty($_FILES['product_image_path']['name'])) {
+        if (!empty($_FILES['image_mobile']['name'])) {
             try {
-                $ext = substr($_FILES['product_image_path']['name'],
-                    strrpos($_FILES['product_image_path']['name'], '.') + 1);
+                $ext = substr($_FILES['image_mobile']['name'],
+                    strrpos($_FILES['image_mobile']['name'], '.') + 1);
                 $fname = 'product-image-' . time() . '.' . $ext;
-                $uploader = new Varien_File_Uploader('product_image_path');
+                $uploader = new Varien_File_Uploader('image_mobile');
                 $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png')); // or pdf or anything
 
                 $uploader->setAllowRenameFiles(true);
@@ -111,7 +111,7 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
 
                 $uploader->save($path, $fname);
                 $filename = 'custom/banners/' . $fname;
-                $imagedata['product_image_path'] = $filename;
+                $imagedata['image_mobile'] = $filename;
 
                 Mage::dispatchEvent('ui_banner_upload_image_after', array('path' => $path, 'filename' => $fname));
             } catch (Exception $e) {
@@ -120,6 +120,31 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
                 return;
             }
         }
+
+//        if (!empty($_FILES['product_image_path']['name'])) {
+//            try {
+//                $ext = substr($_FILES['product_image_path']['name'],
+//                    strrpos($_FILES['product_image_path']['name'], '.') + 1);
+//                $fname = 'product-image-' . time() . '.' . $ext;
+//                $uploader = new Varien_File_Uploader('product_image_path');
+//                $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png')); // or pdf or anything
+//
+//                $uploader->setAllowRenameFiles(true);
+//                $uploader->setFilesDispersion(false);
+//
+//                $path = Mage::getBaseDir('media') . DS . 'custom' . DS . 'banners';
+//
+//                $uploader->save($path, $fname);
+//                $filename = 'custom/banners/' . $fname;
+//                $imagedata['product_image_path'] = $filename;
+//
+//                Mage::dispatchEvent('ui_banner_upload_image_after', array('path' => $path, 'filename' => $fname));
+//            } catch (Exception $e) {
+//                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+//                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+//                return;
+//            }
+//        }
         if ($data = $this->getRequest()->getPost()) {
             $data = $this->_filterPostData($this->getRequest()->getPost());
             $data['schedule_enabled'] = isset($data['schedule_enabled']) ? 1 : 0;
@@ -136,19 +161,33 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
                     unset($data['filename']);
                 }
             }
-            if (!empty($imagedata['product_image_path'])) {
-                $data['product_image_path'] = $imagedata['product_image_path'];
+            if (!empty($imagedata['image_mobile'])) {
+                $data['image_mobile'] = $imagedata['image_mobile'];
             } else {
-                if (isset($data['product_image_path']['delete']) && $data['product_image_path']['delete'] == 1) {
-                    if ($data['product_image_path']['value'] != '') {
+                if (isset($data['image_mobile']['delete']) && $data['image_mobile']['delete'] == 1) {
+                    if ($data['image_mobile']['value'] != '') {
                         $_helper = Mage::helper('banner');
-                        $this->removeFile(Mage::getBaseDir('media') . DS . $_helper->updateDirSepereator($data['product_image_path']['value']));
+                        $this->removeFile(Mage::getBaseDir('media') . DS . $_helper->updateDirSepereator($data['image_mobile']['value']));
                     }
-                    $data['product_image_path'] = '';
+                    $data['image_mobile'] = '';
                 } else {
-                    unset($data['product_image_path']);
+                    unset($data['image_mobile']);
                 }
             }
+
+//            if (!empty($imagedata['product_image_path'])) {
+//                $data['product_image_path'] = $imagedata['product_image_path'];
+//            } else {
+//                if (isset($data['product_image_path']['delete']) && $data['product_image_path']['delete'] == 1) {
+//                    if ($data['product_image_path']['value'] != '') {
+//                        $_helper = Mage::helper('banner');
+//                        $this->removeFile(Mage::getBaseDir('media') . DS . $_helper->updateDirSepereator($data['product_image_path']['value']));
+//                    }
+//                    $data['product_image_path'] = '';
+//                } else {
+//                    unset($data['product_image_path']);
+//                }
+//            }
             $model = Mage::getModel('banner/banner');
             $model->setData($data)
                 ->setId($this->getRequest()->getParam('id'));

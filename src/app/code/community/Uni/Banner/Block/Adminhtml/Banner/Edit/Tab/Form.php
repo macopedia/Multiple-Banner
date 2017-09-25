@@ -77,9 +77,15 @@ class Uni_Banner_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminhtml_Blo
         ));
 
         $fieldset->addField('filename', 'image', array(
-            'label'    => Mage::helper('banner')->__('Image'),
+            'label'    => Mage::helper('banner')->__('Desktop image'),
             'required' => false,
             'name'     => 'filename',
+        ));
+
+        $fieldset->addField('image_mobile', 'image', array(
+            'label' => Mage::helper('banner')->__('Mobile image'),
+            'required' => false,
+            'name' => 'image_mobile',
         ));
 
         if (in_array($version, array('1.4', '1.5', '1.6', '1.7'))) {
