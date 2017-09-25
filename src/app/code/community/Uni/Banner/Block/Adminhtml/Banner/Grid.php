@@ -12,12 +12,15 @@ class Uni_Banner_Block_Adminhtml_Banner_Grid extends Uni_Banner_Block_Adminhtml_
         parent::__construct();
         $this->setId('bannerGrid');
         $this->setDefaultSort('banner_id');
-        $this->setDefaultDir('ASC');
+        $this->setDefaultDir('DESC');
+        $this->setDefaultFilter(array('status' => array("1")));
         $this->setSaveParametersInSession(true);
+
     }
 
     protected function _prepareCollection() {
         $collection = Mage::getModel('banner/banner')->getCollection();
+        $this->setDefaultLimit(100);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -99,7 +102,7 @@ class Uni_Banner_Block_Adminhtml_Banner_Grid extends Uni_Banner_Block_Adminhtml_
             'options' => array(
                 1 => 'Enabled',
                 2 => 'Disabled',
-            ),
+            )
         ));
 
         $this->addColumn('mobile', array(
