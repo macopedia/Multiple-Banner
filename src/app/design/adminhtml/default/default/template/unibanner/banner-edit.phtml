@@ -1,7 +1,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
         (function() {
-            var type = document.getElementById('banner_type');
+            var type = document.getElementById('banner_type'),
+                title = document.getElementById('title');
 
             function toggleHtmlFields(show) {
                 var fields = document.querySelectorAll('.is-html-field, #product_image_path');
@@ -11,6 +12,10 @@
                 }
             }
 
+            function copyField(dest) {
+                dest.value = this.value;
+            }
+
             if ( typeof type !== 'undefined' ) {
                 type.addEventListener('change', function(){
                     toggleHtmlFields(parseInt(this.value))
@@ -18,6 +23,8 @@
 
                 toggleHtmlFields(parseInt(type.value));
             }
+
+            title.addEventListener('input', copyField.bind(title, document.getElementById('identifier')));
         })();
     });
 </script>
