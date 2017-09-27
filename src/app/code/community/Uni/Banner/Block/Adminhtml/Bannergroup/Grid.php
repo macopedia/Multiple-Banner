@@ -12,7 +12,6 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Grid extends Mage_Adminhtml_Block_W
         parent::__construct();
         $this->setId('bannergroupGrid');
         $this->setDefaultSort('group_id');
-        $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
     }
 

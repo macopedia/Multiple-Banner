@@ -12,6 +12,8 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Tab_Banner extends Uni_Banner_
         parent::__construct();
         $this->setId('bannerLeftGrid');
         $this->setDefaultSort('banner_id');
+        $this->setDefaultDir('DESC');
+        $this->setDefaultFilter(array('status' => array("1")));
         $this->setUseAjax(true);
     }
 
@@ -21,7 +23,7 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Tab_Banner extends Uni_Banner_
 
     protected function _prepareCollection() {
         $collection = Mage::getModel('banner/banner')->getCollection();
-        $collection->getSelect()->order('banner_id');
+        $this->setDefaultLimit(100);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -44,7 +46,7 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Tab_Banner extends Uni_Banner_
                 parent::_addColumnFilterToCollection($column);
             }
         }
-        return $this;;
+        return $this;
     }
 
     protected function _prepareColumns() {
@@ -83,6 +85,18 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Tab_Banner extends Uni_Banner_
             'header' => Mage::helper('banner')->__('Link'),
             'width' => '200px',
             'index' => 'link',
+        ));
+
+        $this->addColumn('status', array(
+            'header' => Mage::helper('banner')->__('Status'),
+            'align' => 'left',
+            'width' => '80px',
+            'index' => 'status',
+            'type' => 'options',
+            'options' => array(
+                1 => 'Enabled',
+                2 => 'Disabled',
+            )
         ));
 
         $this->addColumn('banner_type', array(
