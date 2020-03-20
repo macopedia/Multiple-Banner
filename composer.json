@@ -1,0 +1,36 @@
+{
+    "name": "macopedia/multiple-banner",
+    "type": "magento-module",
+    "extra": {
+        "map": [
+            [
+                "src/app/code/community/Uni",
+                "app/code/community/Uni"
+            ],
+            [
+                "src/app/etc/modules/*",
+                "app/etc/modules/"
+            ],
+            [
+                "src/app/design/adminhtml/default/default/layout/unibanner.xml",
+                "app/design/adminhtml/default/default/layout/unibanner.xml"
+            ],
+            [
+                "src/app/design/adminhtml/default/default/template/unibanner/",
+                "app/design/adminhtml/default/default/template/unibanner/"
+            ],
+            [
+                "src/app/design/frontend/base/default/template/unibanner/",
+                "app/design/frontend/base/default/template/unibanner/"
+            ],
+            [
+                "src/app/design/frontend/base/default/layout/unibanner.xml",
+                "app/design/frontend/base/default/layout/unibanner.xml"
+            ],
+            [
+                "src/skin/frontend/base/default/unibanner/",
+                "skin/frontend/base/default/unibanner/"
+            ]
+        ]
+    }
+}
