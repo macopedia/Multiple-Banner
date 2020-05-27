@@ -105,6 +105,12 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
         if (!$imagePath) {
             return false;
         }
+
+        $extension = substr($imagePath, -3, 3);
+        if ($this->shouldConvertPngToJpg() && $extension === 'png') {
+            $imagePath = substr($imagePath, 0, -3) . 'png';
+        }
+
         $resizedImagePath = $this->getResizedImagePath($imagePath, $bannerGroupName, $w, $h);
 
         $mediaDir = Mage::getBaseDir('media');
@@ -156,6 +162,10 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
         $resizeObject = Mage::getModel('banner/bannerresize');
         $resizeObject->setImage($fullImagePath);
 
+        if ($this->shouldConvertPngToJpg() && $imagePathInfo['extension'] === 'png') {
+            $this->convertPngToJpg($resizeObject, $resizedImagePath);
+        }
+
         if ($resizeObject->resizeLimitwh($w, $h, $resizedImagePath) === false) {
             return $resizeObject->error();
         }
@@ -173,5 +183,30 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
             return true;
         }
         return false;
+    }
+
+    /**
+     * @TODO move to admin panel
+     */
+    protected function shouldConvertPngToJpg() {
+        return false;
+    }
+
+    /**
+     * @param Uni_Banner_Model_Bannerresize $bannerresize
+     * @param string $newImagePath
+     */
+    private function convertPngToJpg(Uni_Banner_Model_Bannerresize $bannerresize, $newImagePath)
+    {
+        $image = $bannerresize->_img;
+        $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
+        imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
+        imagealphablending($bg, true);
+        imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+        imagedestroy($image);
+        imagejpeg($bg, $newImagePath);
+        imagedestroy($bg);
+
+        $bannerresize->setImage($newImagePath);
     }
 }
