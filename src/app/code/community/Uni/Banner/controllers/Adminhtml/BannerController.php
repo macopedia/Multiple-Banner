@@ -72,6 +72,7 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
 
     public function saveAction()
     {
+        $helper = Mage::helper('banner');
         $imagedata = array();
         if (!empty($_FILES['filename']['name'])) {
             try {
@@ -89,6 +90,7 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
                 $filename = 'custom/banners/' . $fname;
                 $imagedata['filename'] = $filename;
 
+                $helper->resizeImageInAllSizes($filename, 'image');
                 Mage::dispatchEvent('ui_banner_upload_image_after', array('path' => $path, 'filename' => $fname));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -113,6 +115,7 @@ class Uni_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Ac
                 $filename = 'custom/banners/' . $fname;
                 $imagedata['image_mobile'] = $filename;
 
+		        $helper->resizeImageInAllSizes($filename, 'image_mobile');
                 Mage::dispatchEvent('ui_banner_upload_image_after', array('path' => $path, 'filename' => $fname));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

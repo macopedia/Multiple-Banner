@@ -174,6 +174,22 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @param string $imagePath
+     * @param string $imageType
+     * @throws Exception
+     */
+    public function resizeImageInAllSizes($imagePath, $imageType) {
+        $bannerGroups = Mage::getModel('banner/bannergroup')->getCollection();
+        foreach ($bannerGroups as $bannerGroup) {
+            $groupCode = $bannerGroup->getGroupCode();
+            $sizes = $this->getImageSizesListByType($imageType, $bannerGroup);
+            foreach ($sizes as $size) {
+                $this->getResizedImage($imagePath, $groupCode, $size['w'], $size['h']);
+            }
+        }
+    }
+
+    /**
      * @param string $directory
      * @return bool
      */
@@ -218,5 +234,53 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
     protected function getQuality()
     {
         return 90;
+    }
+
+    /**
+     * @param string $type
+     * @param Uni_Banner_Model_Bannergroup $bannerGroup
+     * @return int[]
+     * @throws Exception
+     */
+    public function getImageSizesListByType($type, Uni_Banner_Model_Bannergroup $bannerGroup)
+    {
+        switch ($type) {
+            case 'image':
+                return $this->getImageNormalSizesList($bannerGroup);
+            case 'image_mobile':
+                return $this->getImageMobileSizesList($bannerGroup);
+            default:
+                throw new Exception('Unknown image type');
+        }
+    }
+
+    /**
+     * @TODO Add in admin panel functionality to set more possible sizes
+     * @param Uni_Banner_Model_Bannergroup $bannerGroup
+     * @return array
+     */
+    protected function getImageNormalSizesList(Uni_Banner_Model_Bannergroup $bannerGroup)
+    {
+        return [
+            [
+                'w' => $bannerGroup->getBannerWidth(),
+                'h' => $bannerGroup->getBannerHeight()
+            ]
+        ];
+    }
+
+    /**
+     * @TODO Add in admin panel functionality to set more possible sizes
+     * @param Uni_Banner_Model_Bannergroup $bannerGroup
+     * @return array
+     */
+    protected function getImageMobileSizesList(Uni_Banner_Model_Bannergroup $bannerGroup)
+    {
+        return [
+            [
+                'w' => $bannerGroup->getBannerWidth(),
+                'h' => $bannerGroup->getBannerHeight()
+            ]
+        ];
     }
 }
