@@ -143,4 +143,23 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
         }
         return $this->_product;
     }
+
+    /**
+     * @param string $imageType
+     * @return string|null
+     * @throws Exception
+     */
+    public function getImagePathByType($imageType) {
+        switch ($imageType) {
+            case 'image_mobile':
+                $file =$this->getData('image_mobile');
+                if ($file) {
+                    return $file;
+                }
+            case 'image':
+                return $this->getData('filename');
+            default:
+                throw new Exception('Unknown image type');
+        }
+    }
 }
