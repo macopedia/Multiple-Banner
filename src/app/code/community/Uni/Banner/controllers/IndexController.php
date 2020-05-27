@@ -1,7 +1,10 @@
 <?php
-class Uni_Banner_IndexController extends Mage_Core_Controller_Front_Action {
 
-    public function indexAction() {
+class Uni_Banner_IndexController extends Mage_Core_Controller_Front_Action
+{
+
+    public function indexAction()
+    {
         $this->loadLayout();
         $this->renderLayout();
     }

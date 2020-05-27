@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unicode Systems
  * @category   Uni
@@ -6,15 +7,17 @@
  * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Form extends Mage_Adminhtml_Block_Widget_Form {
+class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+{
 
-    protected function _prepareForm() {
+    protected function _prepareForm()
+    {
         $form = new Varien_Data_Form(array(
-                    'id' => 'edit_form',
-                    'action' => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'))),
-                    'method' => 'post',
-                    'enctype' => 'multipart/form-data'
-                        )
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'))),
+                'method' => 'post',
+                'enctype' => 'multipart/form-data'
+            )
         );
 
         $form->setUseContainer(true);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unicode Systems
  * @category   Uni
@@ -6,13 +7,16 @@
  * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-class Uni_Banner_Model_Mysql4_Bannergroup extends Mage_Core_Model_Mysql4_Abstract {
+class Uni_Banner_Model_Mysql4_Bannergroup extends Mage_Core_Model_Mysql4_Abstract
+{
 
-    public function _construct() {
+    public function _construct()
+    {
         $this->_init('banner/bannergroup', 'group_id');
     }
 
-    public function _beforeSave(Mage_Core_Model_Abstract $object) {
+    public function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
         $isDataValid = true;
         $id = $object->getId();
         $groupCode = $object->getGroupCode();

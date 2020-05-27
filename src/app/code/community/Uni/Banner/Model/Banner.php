@@ -14,7 +14,7 @@ class Uni_Banner_Model_Banner extends Mage_Core_Model_Abstract
 
     const VARNISH_TAG = 'banner-';
 
-    const STATUS_ENABLED  = 1;
+    const STATUS_ENABLED = 1;
     const STATUS_DISABLED = 2;
 
     /**

@@ -10,17 +10,17 @@ $table = $installer->getTable('banner/banner');
 
 $installer->getConnection()
     ->addColumn($table, 'product_id', array(
-        'type'    => Varien_Db_Ddl_Table::TYPE_INTEGER,
+        'type' => Varien_Db_Ddl_Table::TYPE_INTEGER,
         'nullable' => true,
         'comment' => 'Product id'
     ));
 
 $installer->getConnection()
     ->addColumn($table, 'product_image_path', array(
-        'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
         'nullable' => false,
-        'default'  => '',
-        'comment'  => 'Product image path'
+        'default' => '',
+        'comment' => 'Product image path'
     ));
 
 $installer->startSetup();

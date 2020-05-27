@@ -8,7 +8,8 @@
  */
 define("UNI_AUTO_NAME", 1);
 
-class Uni_Banner_Model_Bannerresize {
+class Uni_Banner_Model_Bannerresize
+{
 
     var $imgFile = "";
     var $imgWidth = 0;
@@ -25,13 +26,14 @@ class Uni_Banner_Model_Bannerresize {
      * @param [String $imgFile] Image File Name
      * @return RESIZEIMAGE (Class Object)
      */
-    function Uni_Banner_Model_Bannerresize($imgFile="") {
+    function Uni_Banner_Model_Bannerresize($imgFile = "")
+    {
         if (!function_exists("imagecreate")) {
             $this->_error = "Error: GD Library is not available.";
             return false;
         }
 
-        $this->type = Array(1 => 'GIF', 2 => 'JPG', 3 => 'PNG', 4 => 'SWF', 5 => 'PSD', 6 => 'BMP', 7 => 'TIFF', 8 => 'TIFF', 9 => 'JPC', 10 => 'JP2', 11 => 'JPX', 12 => 'JB2', 13 => 'SWC', 14 => 'IFF', 15 => 'WBMP', 16 => 'XBM');
+        $this->type = array(1 => 'GIF', 2 => 'JPG', 3 => 'PNG', 4 => 'SWF', 5 => 'PSD', 6 => 'BMP', 7 => 'TIFF', 8 => 'TIFF', 9 => 'JPC', 10 => 'JP2', 11 => 'JPX', 12 => 'JB2', 13 => 'SWC', 14 => 'IFF', 15 => 'WBMP', 16 => 'XBM');
         if (!empty($imgFile))
             $this->setImage($imgFile);
     }
@@ -41,7 +43,8 @@ class Uni_Banner_Model_Bannerresize {
      *
      * @return String
      */
-    function error() {
+    function error()
+    {
         return $this->_error;
     }
 
@@ -51,7 +54,8 @@ class Uni_Banner_Model_Bannerresize {
      * @param String $imgFile
      * @return void
      */
-    function setImage($imgFile) {
+    function setImage($imgFile)
+    {
         $this->imgFile = $imgFile;
         return $this->_createImage();
     }
@@ -60,7 +64,8 @@ class Uni_Banner_Model_Bannerresize {
      *
      * @return void
      */
-    function close() {
+    function close()
+    {
         return @imagedestroy($this->_img);
     }
 
@@ -71,14 +76,15 @@ class Uni_Banner_Model_Bannerresize {
      * @param Numnber $imgheight
      * @param String $newfile
      */
-    function resizeLimitwh($imgwidth, $imgheight, $newfile=NULL) {
+    function resizeLimitwh($imgwidth, $imgheight, $newfile = NULL)
+    {
         $image_per = 100;
         list($width, $height, $type, $attr) = @getimagesize($this->imgFile);
         if ($width > $imgwidth && $imgwidth > 0)
-            $image_per = (double) (($imgwidth * 100) / $width);
+            $image_per = (double)(($imgwidth * 100) / $width);
 
         if (floor(($height * $image_per) / 100) > $imgheight && $imgheight > 0)
-            $image_per = (double) (($imgheight * 100) / $height);
+            $image_per = (double)(($imgheight * 100) / $height);
 
         $this->resizePercentage($image_per, $newfile);
     }
@@ -90,7 +96,8 @@ class Uni_Banner_Model_Bannerresize {
      * @param String $newfile
      * @return Boolean
      */
-    function resizePercentage($percent=100, $newfile=NULL) {
+    function resizePercentage($percent = 100, $newfile = NULL)
+    {
         $newWidth = ($this->imgWidth * $percent) / 100;
         $newHeight = ($this->imgHeight * $percent) / 100;
         return $this->resize($newWidth, $newHeight, $newfile);
@@ -104,7 +111,8 @@ class Uni_Banner_Model_Bannerresize {
      * @param String $newfile
      * @return Boolean
      */
-    function resizeXYpercentage($xpercent=100, $ypercent=100, $newfile=NULL) {
+    function resizeXYpercentage($xpercent = 100, $ypercent = 100, $newfile = NULL)
+    {
         $newWidth = ($this->imgWidth * $xpercent) / 100;
         $newHeight = ($this->imgHeight * $ypercent) / 100;
         return $this->resize($newWidth, $newHeight, $newfile);
@@ -118,7 +126,8 @@ class Uni_Banner_Model_Bannerresize {
      * @param String $newfile
      * @return Boolean
      */
-    function resize($width, $height, $newfile=NULL) {
+    function resize($width, $height, $newfile = NULL)
+    {
         if (empty($this->imgFile)) {
             $this->_error = "File name is not initialised.";
             return false;
@@ -139,7 +148,8 @@ class Uni_Banner_Model_Bannerresize {
      * @access Private
      *
      */
-    function _getImageInfo() {
+    function _getImageInfo()
+    {
         @list($this->imgWidth, $this->imgHeight, $type, $this->imgAttr) = @getimagesize($this->imgFile);
         $this->imgType = $this->type[$type];
     }
@@ -149,7 +159,8 @@ class Uni_Banner_Model_Bannerresize {
      * @access Private
      * @return Boolean
      */
-    function _createImage() {
+    function _createImage()
+    {
         $this->_getImageInfo($this->imgFile);
         if ($this->imgType == 'GIF') {
             $this->_img = @imagecreatefromgif($this->imgFile);
@@ -174,7 +185,8 @@ class Uni_Banner_Model_Bannerresize {
      * @param String $newfile
      * @return Boolean
      */
-    function _resize($width, $height, $newfile=NULL) {
+    function _resize($width, $height, $newfile = NULL)
+    {
         if (!function_exists("imagecreate")) {
             $this->_error = "Error: GD Library is not available.";
             return false;
@@ -198,12 +210,10 @@ class Uni_Banner_Model_Bannerresize {
         @imagecopyresampled($newimg, $this->_img, 0, 0, 0, 0, $width, $height, $this->imgWidth, $this->imgHeight);
 
 
-
         if ($newfile === UNI_AUTO_NAME) {
             if (@preg_match("/\..*+$/", @basename($this->imgFile), $matches))
                 $newfile = @substr_replace($this->imgFile, "_har", -@strlen($matches[0]), 0);
-        }
-        elseif (!empty($newfile)) {
+        } elseif (!empty($newfile)) {
             if (!@preg_match("/\..*+$/", @basename($newfile))) {
                 if (@preg_match("/\..*+$/", @basename($this->imgFile), $matches))
                     $newfile = $newfile . $matches[0];
@@ -218,7 +228,7 @@ class Uni_Banner_Model_Bannerresize {
             }
         } elseif ($this->imgType == 'JPG') {
             if (!empty($newfile)) {
-                @imagejpeg($newimg, $newfile);                
+                @imagejpeg($newimg, $newfile);
             } else {
                 @header("Content-type: image/jpeg");
                 @imagejpeg($newimg);

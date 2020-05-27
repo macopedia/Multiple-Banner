@@ -10,7 +10,7 @@ $table = $installer->getTable('banner/banner');
 
 $installer->getConnection()
     ->addColumn($table, 'product_position', array(
-        'type'    => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
         'nullable' => true,
         'comment' => 'Product position'
     ));

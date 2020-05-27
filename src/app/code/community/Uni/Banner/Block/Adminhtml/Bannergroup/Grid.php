@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unicode Systems
  * @category   Uni
@@ -6,23 +7,27 @@
  * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-class Uni_Banner_Block_Adminhtml_Bannergroup_Grid extends Mage_Adminhtml_Block_Widget_Grid {
+class Uni_Banner_Block_Adminhtml_Bannergroup_Grid extends Mage_Adminhtml_Block_Widget_Grid
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->setId('bannergroupGrid');
         $this->setDefaultSort('group_id');
         $this->setSaveParametersInSession(true);
     }
 
-    protected function _prepareCollection() {
+    protected function _prepareCollection()
+    {
         $collection = Mage::getModel('banner/bannergroup')->getCollection();
         $collection->getSelect()->columns(array('banner_effect' => 'if((animation_type=0),pre_banner_effects,banner_effects)'));
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
-    protected function _prepareColumns() {
+    protected function _prepareColumns()
+    {
         $this->addColumn('group_id', array(
             'header' => Mage::helper('banner')->__('ID'),
             'align' => 'right',
@@ -34,7 +39,7 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Grid extends Mage_Adminhtml_Block_W
             'header' => Mage::helper('banner')->__('Banner Group name'),
             'index' => 'group_name',
         ));
-        
+
         $this->addColumn('group_code', array(
             'header' => Mage::helper('banner')->__('Group code'),
             'width' => '100px',
@@ -79,7 +84,7 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Grid extends Mage_Adminhtml_Block_W
             'width' => '50px',
             'index' => 'banner_ids',
         ));
-        
+
         $this->addColumn('show_title', array(
             'header' => Mage::helper('banner')->__('Show Title'),
             'align' => 'center',
@@ -102,7 +107,7 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Grid extends Mage_Adminhtml_Block_W
                 0 => 'No',
             ),
         ));
-        
+
         $this->addColumn('status', array(
             'header' => Mage::helper('banner')->__('Status'),
             'align' => 'left',
@@ -116,23 +121,23 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Grid extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('action',
-                array(
-                    'header' => Mage::helper('banner')->__('Action'),
-                    'width' => '50',
-                    'type' => 'action',
-                    'getter' => 'getId',
-                    'actions' => array(
-                        array(
-                            'caption' => Mage::helper('banner')->__('Edit'),
-                            'url' => array('base' => '*/*/edit'),
-                            'field' => 'id'
-                        )
-                    ),
-                    'filter' => false,
-                    'sortable' => false,
-                    'index' => 'stores',
-                    'is_system' => true,
-        ));
+            array(
+                'header' => Mage::helper('banner')->__('Action'),
+                'width' => '50',
+                'type' => 'action',
+                'getter' => 'getId',
+                'actions' => array(
+                    array(
+                        'caption' => Mage::helper('banner')->__('Edit'),
+                        'url' => array('base' => '*/*/edit'),
+                        'field' => 'id'
+                    )
+                ),
+                'filter' => false,
+                'sortable' => false,
+                'index' => 'stores',
+                'is_system' => true,
+            ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('banner')->__('CSV'));
         $this->addExportType('*/*/exportXml', Mage::helper('banner')->__('XML'));
@@ -140,7 +145,8 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Grid extends Mage_Adminhtml_Block_W
         return parent::_prepareColumns();
     }
 
-    protected function _prepareMassaction() {
+    protected function _prepareMassaction()
+    {
         $this->setMassactionIdField('group_id');
         $this->getMassactionBlock()->setFormFieldName('banner');
 
@@ -169,7 +175,8 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Grid extends Mage_Adminhtml_Block_W
         return $this;
     }
 
-    public function getRowUrl($row) {
+    public function getRowUrl($row)
+    {
         return $this->getUrl('*/*/edit', array('id' => $row->getId()));
     }
 

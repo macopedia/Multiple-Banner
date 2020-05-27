@@ -5,7 +5,7 @@ $installer = $this;
 $table = $installer->getTable('banner/banner');
 
 $installer->getConnection()->addColumn(
-        $table, 'mobile', ' smallint(6) NOT NULL default 0'
-    );
+    $table, 'mobile', ' smallint(6) NOT NULL default 0'
+);
 $installer->startSetup();
 $installer->endSetup();

@@ -7,7 +7,8 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getSkinUrl('unibanner/css/stylesban.css') ?>" />
+<link rel="stylesheet" type="text/css" media="all"
+      href="<?php echo $this->getSkinUrl('unibanner/css/stylesban.css') ?>"/>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/protofade.js') ?>"></script>
 <?php
 $bannerGroupCode = $this->getBannerGroupCode();
@@ -22,43 +23,56 @@ $styleBWH = 'width: ' . $bannerWidth . 'px; height: ' . $bannerHeight . 'px;';
 $duration = Mage::getStoreConfig('banner/banner/banner_time_delay');
 $durat = $duration / 1000;
 
-$imageWidth = ((int) $bannerWidth - 8);
-$imageHeight = ((int) $bannerHeight - 8);
+$imageWidth = ((int)$bannerWidth - 8);
+$imageHeight = ((int)$bannerHeight - 8);
 $styleWH = 'width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px;';
 ?>
 <script type="text/javascript">
     function StartUp() {
-        new Protofade('protofade4',{delay:<?php echo $durat; ?>});
+        new Protofade('protofade4', {delay:<?php echo $durat; ?>});
     }
-    document.observe ('dom:loaded', StartUp);
+
+    document.observe('dom:loaded', StartUp);
 </script>
 <style type="text/css">
-    #slider-container4{<?php echo $styleBWH; ?>;}
-    #protofade4{<?php echo $styleWH; ?>;}
-    #protofade4 .fade-banner-title{font-size:<?php echo ((int) $bannerHeight / 15) . 'px'; ?>; <?php echo ((((int) $bannerHeight / 15) < 18) ? 'font-weight:bold;' : 'font-weight:normal;'); ?>}
+    #slider-container4 {
+    <?php echo $styleBWH; ?>;
+    }
+
+    #protofade4 {
+    <?php echo $styleWH; ?>;
+    }
+
+    #protofade4 .fade-banner-title {
+        font-size: <?php echo ((int) $bannerHeight / 15) . 'px'; ?>;
+    <?php echo ((((int) $bannerHeight / 15) < 18) ? 'font-weight:bold;' : 'font-weight:normal;'); ?>
+    }
 </style>
 <div id="slider-container4">
     <div id="protofade4">
-<?php
-$i = 0;
-foreach ($bannerData as $banner):
-    $bannerType = $banner->getBannerType();
-    $bannerPath = $banner->getFilename();
-    $bannerCon = $banner->getbannerContent();
-    $bannerTit = $banner->gettitle();
-    $bannerImage = '';
-    if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)) :
-        $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
-    endif;
-    $bannerTitle = $banner->getTitle();
-    $bannerContent = $banner->getBannerContent();
-    $bannerLink = $banner->getLink();
-    if ($bannerImage != '') :
-        $i++;
-        $v = "imgtextfade" . $i;
-?>
-        <div><h3 class="fade-banner-title"><a href="<?php echo (($bannerLink) ? $bannerLink : 'javascript:'); ?>" <?php echo (($bannerLink)?'target="'.$bannerdest.'"':''); ?> title="<?php echo $bannerTitle; ?>"><?php echo $bannerTit; ?></a></h3><?php echo $bannerCon; ?></div>
-<?php endif;
-    endforeach; ?>
+        <?php
+        $i = 0;
+        foreach ($bannerData as $banner):
+            $bannerType = $banner->getBannerType();
+            $bannerPath = $banner->getFilename();
+            $bannerCon = $banner->getbannerContent();
+            $bannerTit = $banner->gettitle();
+            $bannerImage = '';
+            if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)) :
+                $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+            endif;
+            $bannerTitle = $banner->getTitle();
+            $bannerContent = $banner->getBannerContent();
+            $bannerLink = $banner->getLink();
+            if ($bannerImage != '') :
+                $i++;
+                $v = "imgtextfade" . $i;
+                ?>
+                <div><h3 class="fade-banner-title"><a
+                            href="<?php echo(($bannerLink) ? $bannerLink : 'javascript:'); ?>" <?php echo(($bannerLink) ? 'target="' . $bannerdest . '"' : ''); ?>
+                            title="<?php echo $bannerTitle; ?>"><?php echo $bannerTit; ?></a>
+                    </h3><?php echo $bannerCon; ?></div>
+            <?php endif;
+        endforeach; ?>
     </div>
 </div>

@@ -25,7 +25,7 @@ $_banner = $this->getBanner($this->getIdentifier());
     }
     ?>
 
-    <?php if($_banner->getBannerType() == 0) : ?>
+    <?php if ($_banner->getBannerType() == 0) : ?>
         <?php
         $_bannerImage = '';
         if ($_bannerPath != '' && @file_exists($this->getMediaDir() . DS . $_bannerPath)) {
@@ -34,8 +34,8 @@ $_banner = $this->getBanner($this->getIdentifier());
         ?>
         <?php if ($_bannerImage != ''): ?>
             <div class="banner <?php echo $_extraClass ?>">
-                <?php if($_bannerLink): ?>
-                    <a href="<?php echo ($_bannerLink); ?>"
+                <?php if ($_bannerLink): ?>
+                    <a href="<?php echo($_bannerLink); ?>"
                        title="<?php echo $_bannerTitle; ?>">
                         <img src="<?php echo $_bannerImage; ?>" alt="<?php echo $_bannerTitle; ?>"/>
                     </a>
@@ -46,9 +46,9 @@ $_banner = $this->getBanner($this->getIdentifier());
         <?php endif; ?>
     <?php else: ?>
         <div class="banner <?php echo $_extraClass ?>">
-            <a href="<?php echo $_bannerLink; ?>" title="<?php echo $_bannerTitle; ?>" >
+            <a href="<?php echo $_bannerLink; ?>" title="<?php echo $_bannerTitle; ?>">
                 <?php echo $_bannerContent; ?>
             </a>
         </div>
-    <?php endif;?>
+    <?php endif; ?>
 <?php endif; ?>

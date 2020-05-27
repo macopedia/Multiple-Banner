@@ -10,10 +10,10 @@ $table = $installer->getTable('banner/banner');
 
 $installer->getConnection()
     ->addColumn($table, 'image_mobile', array(
-        'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
         'nullable' => false,
-        'default'  => '',
-        'comment'  => 'Mobile banner image'
+        'default' => '',
+        'comment' => 'Mobile banner image'
     ));
 
 $installer->startSetup();

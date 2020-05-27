@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unicode Systems
  * @category   Uni
@@ -6,18 +7,21 @@
  * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-class Uni_Banner_Model_Status extends Varien_Object {
+class Uni_Banner_Model_Status extends Varien_Object
+{
     const STATUS_ENABLED = 1;
     const STATUS_DISABLED = 2;
 
-    static public function getOptionArray() {
+    static public function getOptionArray()
+    {
         return array(
             self::STATUS_ENABLED => Mage::helper('banner')->__('Enabled'),
             self::STATUS_DISABLED => Mage::helper('banner')->__('Disabled')
         );
     }
 
-    static public function getAnimationArray() {
+    static public function getAnimationArray()
+    {
         $animations = array();
         $animations = array(
             array(
@@ -48,20 +52,20 @@ class Uni_Banner_Model_Status extends Varien_Object {
             array(
                 'value' => 'Fold',
                 'label' => Mage::helper('banner')->__('Fold'),
-            ),         
+            ),
             array(
                 'value' => 'Squish',
                 'label' => Mage::helper('banner')->__('Squish'),
             ),
-   
+
             array(
                 'value' => 'BlindUp',
                 'label' => Mage::helper('banner')->__('Blindup'),
             ),
-             array(
+            array(
                 'value' => 'BlindDown',
                 'label' => Mage::helper('banner')->__('BlindDown'),
-            ),            
+            ),
             array(
                 'value' => 'DropOut',
                 'label' => Mage::helper('banner')->__('DropOut'),
@@ -71,7 +75,8 @@ class Uni_Banner_Model_Status extends Varien_Object {
         return $animations;
     }
 
-    static public function getPreAnimationArray() {
+    static public function getPreAnimationArray()
+    {
         $animations = array();
         $animations = array(
 
@@ -103,12 +108,12 @@ class Uni_Banner_Model_Status extends Varien_Object {
                 'value' => 'image vertical slider',
                 'label' => Mage::helper('banner')->__('Image Vertical Slider'),
             ),
-          
 
-             /*array(
-                'value' => 'image spring slider',
-                'label' => Mage::helper('banner')->__('Image Spring Slider'),
-            ),*/
+
+            /*array(
+               'value' => 'image spring slider',
+               'label' => Mage::helper('banner')->__('Image Spring Slider'),
+           ),*/
         );
         array_unshift($animations, array('label' => '--Select--', 'value' => ''));
         return $animations;

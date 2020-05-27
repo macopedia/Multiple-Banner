@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unicode Systems
  * @category   Uni
@@ -6,9 +7,11 @@
  * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Tab_Form extends Mage_Adminhtml_Block_Widget_Form {
+class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Tab_Form extends Mage_Adminhtml_Block_Widget_Form
+{
 
-    protected function _prepareForm() {
+    protected function _prepareForm()
+    {
         $form = new Varien_Data_Form();
         $this->setForm($form);
         $fieldset = $form->addFieldset('bannergroup_form', array('legend' => Mage::helper('banner')->__('Item information')));
@@ -74,8 +77,8 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Tab_Form extends Mage_Adminhtm
             'name' => 'banner_effects',
             'required' => true,
             'values' => $animations
-        ));       
-        
+        ));
+
 
         $fieldset->addField('show_title', 'select', array(
             'label' => Mage::helper('banner')->__('Display Title'),
@@ -123,7 +126,7 @@ class Uni_Banner_Block_Adminhtml_Bannergroup_Edit_Tab_Form extends Mage_Adminhtm
                 ),
             ),
         ));
-        
+
         $fieldset->addField('status', 'select', array(
             'label' => Mage::helper('banner')->__('Status'),
             'class' => 'required-entry',

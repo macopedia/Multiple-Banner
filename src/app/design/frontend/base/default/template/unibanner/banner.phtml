@@ -16,8 +16,8 @@ $template = '';
 if (count($bannerGroupData) > 0):
     $prebaneff = $bannerGroupData->getPreBannerEffects();
     $bannerType = $bannerGroupData->getAnimationType();
-?>
-<?php    
+    ?>
+    <?php
     if ($bannerType == 1):
         $template = $this->getLayout()->createBlock('banner/banner', 'custom.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/custom.phtml')->toHtml();
     else:
@@ -46,7 +46,7 @@ if (count($bannerGroupData) > 0):
             case 'image glider':
                 $template = $this->getLayout()->createBlock('banner/banner', 'glider.banner')->setBannerGroupCode($bannerGroupCode)->setTemplate('unibanner/effects/horslider.phtml')->toHtml();
                 break;
-           
+
         }
     endif;
     echo $template;

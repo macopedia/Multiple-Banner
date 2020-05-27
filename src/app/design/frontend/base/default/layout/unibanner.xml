@@ -11,14 +11,26 @@
 <layout version="0.1.0">
     <default>
         <reference name="top.links">
-            <action method="addLink" ifconfig="banner/banner/banner_toplink_enabled" translate="label title" module="banner"><label>Banner</label><url>banner</url><title>Banner</title><prepare>true</prepare></action>
+            <action method="addLink" ifconfig="banner/banner/banner_toplink_enabled" translate="label title"
+                    module="banner">
+                <label>Banner</label>
+                <url>banner</url>
+                <title>Banner</title>
+                <prepare>true</prepare>
+            </action>
         </reference>
     </default>
     <banner_index_index>
         <reference name="head">
-             <action method="addJs"><script>JQuery/galleria-jquery.js</script></action>
-               <action method="addJs"><script>JQuery/galleria-1.2.7.min.js</script></action>
-               <action method="addCss"><stylesheet>css/galleria.classic.css</stylesheet></action>
+            <action method="addJs">
+                <script>JQuery/galleria-jquery.js</script>
+            </action>
+            <action method="addJs">
+                <script>JQuery/galleria-1.2.7.min.js</script>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/galleria.classic.css</stylesheet>
+            </action>
         </reference>
         <reference name="left">
             <block type="banner/banner" name="banner.left" template="unibanner/banner.phtml">

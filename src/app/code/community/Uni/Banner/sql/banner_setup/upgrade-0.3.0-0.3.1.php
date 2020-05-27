@@ -5,8 +5,8 @@ $installer = $this;
 $table = $installer->getTable('banner/banner');
 
 $installer->getConnection()->addColumn(
-        $table, 'identifier', ' varchar(255) NOT NULL default ""'
-    );
+    $table, 'identifier', ' varchar(255) NOT NULL default ""'
+);
 
 $installer->getConnection()->addColumn(
     $table, 'banner_width', ' SMALLINT( 4 ) NOT NULL DEFAULT 0'

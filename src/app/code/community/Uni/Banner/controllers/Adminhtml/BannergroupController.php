@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unicode Systems
  * @category   Uni
@@ -6,12 +7,14 @@
  * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controller_Action {
+class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controller_Action
+{
 
-    protected function _initAction() {
+    protected function _initAction()
+    {
         $this->loadLayout()
-                ->_setActiveMenu('banner/items')
-                ->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
+            ->_setActiveMenu('banner/items')
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
         $id = $this->getRequest()->getParam('id');
         $model = Mage::getModel('banner/bannergroup')->load($id);
         if ($model->getId() || $id == 0) {
@@ -24,19 +27,22 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
         return $this;
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->_initAction()
-                ->renderLayout();
+            ->renderLayout();
     }
 
-    public function bannergridAction() {
+    public function bannergridAction()
+    {
         $this->_initAction();
         $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('banner/adminhtml_bannergroup_edit_tab_banner')->toHtml()
+            $this->getLayout()->createBlock('banner/adminhtml_bannergroup_edit_tab_banner')->toHtml()
         );
     }
 
-    public function editAction() {
+    public function editAction()
+    {
         $id = $this->getRequest()->getParam('id');
         $model = Mage::getModel('banner/bannergroup')->load($id);
 
@@ -56,7 +62,7 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
             $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
             $this->_addContent($this->getLayout()->createBlock('banner/adminhtml_bannergroup_edit'))
-                    ->_addLeft($this->getLayout()->createBlock('banner/adminhtml_bannergroup_edit_tabs'));
+                ->_addLeft($this->getLayout()->createBlock('banner/adminhtml_bannergroup_edit_tabs'));
 
             $this->renderLayout();
         } else {
@@ -65,11 +71,13 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
         }
     }
 
-    public function newAction() {
+    public function newAction()
+    {
         $this->_forward('edit');
     }
 
-    public function saveAction() {
+    public function saveAction()
+    {
         if ($data = $this->getRequest()->getPost()) {
             $banners = array();
             $availBannerIds = Mage::getModel('banner/banner')->getAllAvailBannerIds();
@@ -85,12 +93,12 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
             $data['pre_banner_effects'] = (($data['animation_type'] == 0) ? $data['pre_banner_effects'] : '');
             $model = Mage::getModel('banner/bannergroup');
             $model->setData($data)
-                    ->setId($this->getRequest()->getParam('id'));
+                ->setId($this->getRequest()->getParam('id'));
 
             try {
                 if ($model->getCreatedTime == NULL || $model->getUpdateTime() == NULL) {
                     $model->setCreatedTime(now())
-                            ->setUpdateTime(now());
+                        ->setUpdateTime(now());
                 } else {
                     $model->setUpdateTime(now());
                 }
@@ -117,7 +125,8 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
         $this->_redirect('*/*/');
     }
 
-    public function deleteAction() {
+    public function deleteAction()
+    {
         if ($this->getRequest()->getParam('id') > 0) {
             try {
                 $model = Mage::getModel('banner/bannergroup')->load($this->getRequest()->getParam('id'));
@@ -135,7 +144,8 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
         $this->_redirect('*/*/');
     }
 
-    public function massDeleteAction() {
+    public function massDeleteAction()
+    {
         $bannerIds = $this->getRequest()->getParam('banner');
         if (!is_array($bannerIds)) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select item(s)'));
@@ -148,9 +158,9 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
                     $this->removeFile($filePath);
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                        Mage::helper('adminhtml')->__(
-                                'Total of %d record(s) were successfully deleted', count($bannerIds)
-                        )
+                    Mage::helper('adminhtml')->__(
+                        'Total of %d record(s) were successfully deleted', count($bannerIds)
+                    )
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -159,7 +169,8 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
         $this->_redirect('*/*/index');
     }
 
-    public function massStatusAction() {
+    public function massStatusAction()
+    {
         $bannerIds = $this->getRequest()->getParam('banner');
         if (!is_array($bannerIds)) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select item(s)'));
@@ -167,13 +178,13 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
             try {
                 foreach ($bannerIds as $bannerId) {
                     $banner = Mage::getSingleton('banner/bannergroup')
-                                    ->load($bannerId)
-                                    ->setStatus($this->getRequest()->getParam('status'))
-                                    ->setIsMassupdate(true)
-                                    ->save();
+                        ->load($bannerId)
+                        ->setStatus($this->getRequest()->getParam('status'))
+                        ->setIsMassupdate(true)
+                        ->save();
                 }
                 $this->_getSession()->addSuccess(
-                        $this->__('Total of %d record(s) were successfully updated', count($bannerIds))
+                    $this->__('Total of %d record(s) were successfully updated', count($bannerIds))
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -182,23 +193,26 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
         $this->_redirect('*/*/index');
     }
 
-    public function exportCsvAction() {
+    public function exportCsvAction()
+    {
         $fileName = 'banner.csv';
         $content = $this->getLayout()->createBlock('banner/adminhtml_banner_grid')
-                        ->getCsv();
+            ->getCsv();
 
         $this->_sendUploadResponse($fileName, $content);
     }
 
-    public function exportXmlAction() {
+    public function exportXmlAction()
+    {
         $fileName = 'banner.xml';
         $content = $this->getLayout()->createBlock('banner/adminhtml_banner_grid')
-                        ->getXml();
+            ->getXml();
 
         $this->_sendUploadResponse($fileName, $content);
     }
 
-    protected function _sendUploadResponse($fileName, $content, $contentType='application/octet-stream') {
+    protected function _sendUploadResponse($fileName, $content, $contentType = 'application/octet-stream')
+    {
         $response = $this->getResponse();
         $response->setHeader('HTTP/1.1 200 OK', '');
         $response->setHeader('Pragma', 'public', true);
@@ -213,10 +227,11 @@ class Uni_Banner_Adminhtml_BannergroupController extends Mage_Adminhtml_Controll
         die;
     }
 
-    protected function removeFile($file) {
+    protected function removeFile($file)
+    {
         try {
             $io = new Varien_Io_File();
-            if(!is_dir($file) && file_exists($file)){
+            if (!is_dir($file) && file_exists($file)) {
                 $result = $io->rmdir($file, true);
             }
         } catch (Exception $e) {

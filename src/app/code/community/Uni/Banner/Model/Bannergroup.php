@@ -47,7 +47,7 @@ class Uni_Banner_Model_Bannergroup extends Mage_Core_Model_Abstract
                         array($this, 'callbackValidateBanner')
                     ),
                     array(
-                        'banner'         => Mage::getModel('banner/banner'),
+                        'banner' => Mage::getModel('banner/banner'),
                         'add_cache_tags' => $addCacheTags
                     )
                 );

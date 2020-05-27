@@ -14,7 +14,7 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
     protected static $egridImgURL = null;
     protected static $egridImgThumb = null;
     protected static $egridImgThumbWidth = null;
-    protected $_allowedExtensions = Array();
+    protected $_allowedExtensions = array();
 
     public function __construct()
     {
@@ -59,7 +59,7 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
             return false;
         }
         $a_height = (int)((self::$egridImgThumbWidth / $width) * $height);
-        return Array('width' => self::$egridImgThumbWidth, 'height' => $a_height);
+        return array('width' => self::$egridImgThumbWidth, 'height' => $a_height);
     }
 
     public function deleteFiles($image_file)
