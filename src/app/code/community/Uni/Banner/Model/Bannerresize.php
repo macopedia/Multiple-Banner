@@ -19,6 +19,7 @@ class Uni_Banner_Model_Bannerresize
     var $type = NULL;
     var $_img = NULL;
     var $_error = "";
+    var $quality = 90;
 
     /**
      * Constructor
@@ -183,7 +184,6 @@ class Uni_Banner_Model_Bannerresize
      * @param Number $width
      * @param Number $height
      * @param String $newfile
-     * @return Boolean
      */
     function _resize($width, $height, $newfile = NULL)
     {
@@ -228,7 +228,7 @@ class Uni_Banner_Model_Bannerresize
             }
         } elseif ($this->imgType == 'JPG') {
             if (!empty($newfile)) {
-                @imagejpeg($newimg, $newfile);
+                @imagejpeg($newimg, $newfile, $this->getQuality());
             } else {
                 @header("Content-type: image/jpeg");
                 @imagejpeg($newimg);
@@ -242,6 +242,24 @@ class Uni_Banner_Model_Bannerresize
             }
         }
         @imagedestroy($newimg);
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuality()
+    {
+        return $this->quality;
+    }
+
+    /**
+     * @param int $quality
+     * @return Uni_Banner_Model_Bannerresize
+     */
+    public function setQuality($quality)
+    {
+        $this->quality = $quality;
+        return $this;
     }
 
 }

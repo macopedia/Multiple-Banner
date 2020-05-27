@@ -161,6 +161,7 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
         /** @var Uni_Banner_Model_Bannerresize $resizeObject */
         $resizeObject = Mage::getModel('banner/bannerresize');
         $resizeObject->setImage($fullImagePath);
+        $resizeObject->setQuality($this->getQuality());
 
         if ($this->shouldConvertPngToJpg() && $imagePathInfo['extension'] === 'png') {
             $this->convertPngToJpg($resizeObject, $resizedImagePath);
@@ -204,9 +205,18 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
         imagealphablending($bg, true);
         imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
         imagedestroy($image);
-        imagejpeg($bg, $newImagePath);
+        imagejpeg($bg, $newImagePath, $this->getQuality());
         imagedestroy($bg);
 
         $bannerresize->setImage($newImagePath);
+    }
+
+    /**
+     * @TODO move to admin panel
+     * @return int
+     */
+    protected function getQuality()
+    {
+        return 90;
     }
 }
