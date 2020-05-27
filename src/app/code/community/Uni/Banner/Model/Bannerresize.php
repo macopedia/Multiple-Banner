@@ -87,7 +87,7 @@ class Uni_Banner_Model_Bannerresize
         if (floor(($height * $image_per) / 100) > $imgheight && $imgheight > 0)
             $image_per = (double)(($imgheight * 100) / $height);
 
-        $this->resizePercentage($image_per, $newfile);
+        return $this->resizePercentage($image_per, $newfile);
     }
 
     /**
@@ -184,6 +184,7 @@ class Uni_Banner_Model_Bannerresize
      * @param Number $width
      * @param Number $height
      * @param String $newfile
+     * @return Boolean
      */
     function _resize($width, $height, $newfile = NULL)
     {
@@ -221,27 +222,29 @@ class Uni_Banner_Model_Bannerresize
         }
         if ($this->imgType == 'GIF') {
             if (!empty($newfile))
-                @imagegif($newimg, $newfile);
+                $return = @imagegif($newimg, $newfile);
             else {
                 @header("Content-type: image/gif");
                 @imagegif($newimg);
             }
         } elseif ($this->imgType == 'JPG') {
             if (!empty($newfile)) {
-                @imagejpeg($newimg, $newfile, $this->getQuality());
+                $return = @imagejpeg($newimg, $newfile, $this->getQuality());
             } else {
                 @header("Content-type: image/jpeg");
                 @imagejpeg($newimg);
             }
         } elseif ($this->imgType == 'PNG') {
             if (!empty($newfile))
-                @imagepng($newimg, $newfile);
+                $return = @imagepng($newimg, $newfile);
             else {
                 @header("Content-type: image/png");
                 @imagepng($newimg);
             }
         }
         @imagedestroy($newimg);
+        if (!empty($newfile) && !empty($return))
+            return $return;
     }
 
     /**

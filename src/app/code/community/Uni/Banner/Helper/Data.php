@@ -102,31 +102,43 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getResizedImage($imagePath, $bannerGroupName, $w = null, $h = null)
     {
-        if (!$imagePath) {
-            return false;
-        }
-
-        $extension = substr($imagePath, -3, 3);
-        if ($this->shouldConvertPngToJpg() && $extension === 'png') {
-            $imagePath = substr($imagePath, 0, -3) . 'png';
-        }
-
-        $resizedImagePath = $this->getResizedImagePath($imagePath, $bannerGroupName, $w, $h);
-
-        $mediaDir = Mage::getBaseDir('media');
-
-        if (!$this->getFileExists($resizedImagePath)) {
-            if (!$this->getFileExists($imagePath)) {
+        try {
+            if (!$imagePath) {
+                $this->log($imagePath, $bannerGroupName, Mage::helper('banner')->__('Image path is empty.'));
                 return false;
             }
-            $fullImagePath = $mediaDir . DS . $imagePath;
-            $fullResizedImagePath = $mediaDir . DS . $resizedImagePath;
-            if (!$this->resizeImage($fullImagePath, $w, $h, $fullResizedImagePath) || !$this->getFileExists($resizedImagePath)) {
-                return false;
-            }
-        }
 
-        return Mage::getBaseUrl('media') . DS . $resizedImagePath;
+            $extension = substr($imagePath, -3, 3);
+            if ($this->shouldConvertPngToJpg() && $extension === 'png') {
+                $imagePath = substr($imagePath, 0, -3) . 'png';
+            }
+
+            $resizedImagePath = $this->getResizedImagePath($imagePath, $bannerGroupName, $w, $h);
+
+            $mediaDir = Mage::getBaseDir('media');
+
+            if (!$this->getFileExists($resizedImagePath)) {
+                if (!$this->getFileExists($imagePath)) {
+                    $this->log($imagePath, $bannerGroupName, sprintf(Mage::helper('banner')->__('Image %s doesn\'t exists.'), $imagePath));
+                    return false;
+                }
+                $fullImagePath = $mediaDir . DS . $imagePath;
+                $fullResizedImagePath = $mediaDir . DS . $resizedImagePath;
+                $isResizedImage = $this->resizeImage($fullImagePath, $w, $h, $fullResizedImagePath);
+                if ($isResizedImage !== true) {
+                    $this->log($imagePath, $bannerGroupName, $isResizedImage);
+                    return false;
+                }
+                if (!$this->getFileExists($resizedImagePath)) {
+                    $this->log($imagePath, $bannerGroupName, sprintf(Mage::helper('banner')->__('Can\'t generate %s image.'), $resizedImagePath));
+                    return false;
+                }
+            }
+            return Mage::getBaseUrl('media') . DS . $resizedImagePath;
+        } catch (Exception $e) {
+            $this->log($imagePath, $bannerGroupName, $e->getMessage());
+            throw $e;
+        }
     }
 
     /**
@@ -282,5 +294,20 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
                 'h' => $bannerGroup->getBannerHeight()
             ]
         ];
+    }
+
+    /**
+     * @param string $imagePath
+     * @param string $bannerGroupName
+     * @param string $message
+     */
+    protected function log($imagePath, $bannerGroupName, $message)
+    {
+        $text = [
+            'imagePath' => $imagePath,
+            'bannerGroupName' => $bannerGroupName,
+            'message' => $message
+        ];
+        Mage::log(print_r($text, true), Zend_Log::DEBUG, 'multiple-banner.log');
     }
 }
