@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/custom.js') ?>"></script>
 <link rel="stylesheet" type="text/css" media="all" href="<?php echo $this->getSkinUrl('unibanner/css/custom.css') ?>"/>
 <?php
+$helper = Mage::helper('banner');
 $bannerGroupCode = $this->getBannerGroupCode();
 $data = $this->getDataByGroupCode($bannerGroupCode);
 $bannerGroupData = $data['group_data'];
@@ -53,7 +54,7 @@ $duration = Mage::getStoreConfig('banner/banner/banner_time_delay');
             $bannerPath = $banner->getFilename();
             $bannerImage = '';
             if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)):
-                $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+                $bannerImage = $helper->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
             endif;
             if ($bannerImage != '') :
                 ?>

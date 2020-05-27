@@ -11,6 +11,7 @@
       href="<?php echo $this->getSkinUrl('unibanner/css/stylesban.css') ?>"/>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/protofade.js') ?>"></script>
 <?php
+$helper = Mage::helper('banner');
 $bannerGroupCode = $this->getBannerGroupCode();
 $data = $this->getDataByGroupCode($bannerGroupCode);
 $bannerGroupData = $data['group_data'];
@@ -59,7 +60,7 @@ $styleWH = 'width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px;';
             $bannerTit = $banner->gettitle();
             $bannerImage = '';
             if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)) :
-                $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+                $bannerImage = $helper->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
             endif;
             $bannerTitle = $banner->getTitle();
             $bannerContent = $banner->getBannerContent();

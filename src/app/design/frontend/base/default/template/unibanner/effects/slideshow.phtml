@@ -8,6 +8,7 @@
  */
 ?>
 <?php
+$helper = Mage::helper('banner');
 $bannerGroupCode = $this->getBannerGroupCode();
 $data = $this->getDataByGroupCode($bannerGroupCode);
 $bannerGroupData = $data['group_data'];
@@ -66,7 +67,7 @@ $styleBWH = 'width: ' . $bannerWidth . 'px; height: ' . $bannerHeight . 'px;';
             $v = "imgslid" . $i;
             $bannerImage = '';
             if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)):
-                $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+                $bannerImage = $helper->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
             endif;
             if ($bannerImage != '') : ?>
                 <a href="<?php echo(($bannerLink) ? $bannerLink : 'javascript:'); ?>" <?php echo(($bannerLink) ? 'target="' . $bannerdest . '"' : ''); ?>

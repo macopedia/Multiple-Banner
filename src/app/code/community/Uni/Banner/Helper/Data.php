@@ -42,9 +42,8 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getFileExists($image_file)
     {
-        $file_exists = false;
-        $file_exists = file_exists(self::$egridImgDir . $this->updateDirSepereator($image_file));
-        return $file_exists;
+	    $path = self::$egridImgDir . $this->updateDirSepereator($image_file);
+        return is_file($path);
     }
 
     public function getImageThumbSize($image_file)
@@ -92,5 +91,87 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::getSingleton('aoestatic/cache_control')->addTag($tag);
         }
 
+    }
+
+    /**
+     * @param string $imagePath
+     * @param string $bannerGroupName
+     * @param int|null $w
+     * @param int|null $h
+     * @return string|void
+     */
+    public function getResizedImage($imagePath, $bannerGroupName, $w = null, $h = null)
+    {
+        if (!$imagePath) {
+            return false;
+        }
+        $resizedImagePath = $this->getResizedImagePath($imagePath, $bannerGroupName, $w, $h);
+
+        $mediaDir = Mage::getBaseDir('media');
+
+        if (!$this->getFileExists($resizedImagePath)) {
+            if (!$this->getFileExists($imagePath)) {
+                return false;
+            }
+            $fullImagePath = $mediaDir . DS . $imagePath;
+            $fullResizedImagePath = $mediaDir . DS . $resizedImagePath;
+            if (!$this->resizeImage($fullImagePath, $w, $h, $fullResizedImagePath) || !$this->getFileExists($resizedImagePath)) {
+                return false;
+            }
+        }
+
+        return Mage::getBaseUrl('media') . DS . $resizedImagePath;
+    }
+
+    /**
+     * @param string $imagePath
+     * @param string $bannerGroupName
+     * @param int|null $w
+     * @param int|null $h
+     * @return string
+     */
+    public function getResizedImagePath($imagePath, $bannerGroupName, $w, $h) {
+        return implode(DS, [
+            'custom',
+            'banners',
+            'resize',
+            $bannerGroupName,
+            implode('x', [$w, $h]),
+            basename($imagePath)
+        ]);
+    }
+
+    /**
+     * @param string $fullImagePath
+     * @param int|null $w
+     * @param int|null $h
+     * @param string $resizedImagePath
+     * @return bool|String
+     */
+    protected function resizeImage($fullImagePath, $w, $h, $resizedImagePath)
+    {
+        $this->checkDir(dirname($resizedImagePath));
+        $imagePathInfo = pathinfo($fullImagePath);
+        /** @var Uni_Banner_Model_Bannerresize $resizeObject */
+        $resizeObject = Mage::getModel('banner/bannerresize');
+        $resizeObject->setImage($fullImagePath);
+
+        if ($resizeObject->resizeLimitwh($w, $h, $resizedImagePath) === false) {
+            return $resizeObject->error();
+        }
+        return true;
+    }
+
+    /**
+     * @param string $directory
+     * @return bool
+     */
+    protected function checkDir($directory) {
+        if (!is_dir($directory)) {
+            umask(0);
+            mkdir($directory, 0777,true);
+            return true;
+        }
+        return false;
     }
 }

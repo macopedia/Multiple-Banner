@@ -15,6 +15,7 @@
       media="all"/>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('unibanner/js/glider.js') ?>"></script>
 <?php
+$helper = Mage::helper('banner');
 $bannerGroupCode = $this->getBannerGroupCode();
 $data = $this->getDataByGroupCode($bannerGroupCode);
 $bannerGroupData = $data['group_data'];
@@ -74,7 +75,7 @@ $styleWH = 'width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px;';
                 if ($bannerType == 0):
                     $bannerImage = '';
                     if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)):
-                        $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+                        $bannerImage = $helper->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
                     endif;
                     $bannerLink = $banner->getLink();
                     if ($bannerImage != '') :

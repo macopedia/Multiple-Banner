@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('unibanner/css/noieopacity.css') ?>"
       media="all"/>
 <?php
+$helper = Mage::helper('banner');
 $bannerGroupCode = $this->getBannerGroupCode();
 $data = $this->getDataByGroupCode($bannerGroupCode);
 $bannerGroupData = $data['group_data'];
@@ -107,7 +108,7 @@ $styleMBWH = 'width: ' . $bannerWidth . 'px; height: ' . ((int)$bannerHeight + 2
             if ($bannerType == 0) :
                 $bannerImage = '';
                 if ($bannerPath != '' && @file_exists($mediaDir . DS . $bannerPath)) :
-                    $bannerImage = $this->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
+                    $bannerImage = $helper->getResizeImage($bannerPath, $bannerGroupCode, $imageWidth, $imageHeight);
                 endif;
                 if ($bannerImage != '') :
                     $i++;

@@ -73,7 +73,7 @@ class Uni_Banner_Model_Bannerresize
      * Resize a image to given width and height and keep it's current width and height ratio
      *
      * @param Number $imgwidth
-     * @param Numnber $imgheight
+     * @param Number $imgheight
      * @param String $newfile
      */
     function resizeLimitwh($imgwidth, $imgheight, $newfile = NULL)
