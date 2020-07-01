@@ -108,12 +108,12 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
                 return false;
             }
 
-            $extension = substr($imagePath, -3, 3);
-            if ($this->shouldConvertPngToJpg() && $extension === 'png') {
-                $imagePath = substr($imagePath, 0, -3) . 'png';
+            $imagePathToShow = $imagePath;
+            if ($this->shouldConvertPngToJpg() && pathinfo($imagePathToShow)['extension'] === 'png') {
+                $imagePathToShow = substr($imagePathToShow, 0, -3) . 'jpg';
             }
 
-            $resizedImagePath = $this->getResizedImagePath($imagePath, $bannerGroupName, $w, $h);
+            $resizedImagePath = $this->getResizedImagePath($imagePathToShow, $bannerGroupName, $w, $h);
 
             $mediaDir = Mage::getBaseDir('media');
 
@@ -163,12 +163,12 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string $fullImagePath
      * @param int|null $w
      * @param int|null $h
-     * @param string $resizedImagePath
+     * @param string $fullResizedImagePath
      * @return bool|String
      */
-    protected function resizeImage($fullImagePath, $w, $h, $resizedImagePath)
+    protected function resizeImage($fullImagePath, $w, $h, $fullResizedImagePath)
     {
-        $this->checkDir(dirname($resizedImagePath));
+        $this->checkDir(dirname($fullResizedImagePath));
         $imagePathInfo = pathinfo($fullImagePath);
         /** @var Uni_Banner_Model_Bannerresize $resizeObject */
         $resizeObject = Mage::getModel('banner/bannerresize');
@@ -176,10 +176,11 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
         $resizeObject->setQuality($this->getQuality());
 
         if ($this->shouldConvertPngToJpg() && $imagePathInfo['extension'] === 'png') {
-            $this->convertPngToJpg($resizeObject, $resizedImagePath);
+            $convertedFullImagePath = sprintf('%s/%s.jpg', $imagePathInfo['dirname'], $imagePathInfo['filename']);
+            $this->convertPngToJpg($resizeObject, $convertedFullImagePath);
         }
 
-        if ($resizeObject->resizeLimitwh($w, $h, $resizedImagePath) === false) {
+        if ($resizeObject->resizeLimitwh($w, $h, $fullResizedImagePath) === false) {
             return $resizeObject->error();
         }
         return true;
