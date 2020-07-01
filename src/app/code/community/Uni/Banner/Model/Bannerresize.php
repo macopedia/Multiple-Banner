@@ -76,15 +76,18 @@ class Uni_Banner_Model_Bannerresize
      * @param Number $imgwidth
      * @param Number $imgheight
      * @param String $newfile
+     * @param bool $overOneHundredPercent
+     * @return bool
      */
-    function resizeLimitwh($imgwidth, $imgheight, $newfile = NULL)
+    function resizeLimitwh($imgwidth, $imgheight, $newfile = NULL, $overOneHundredPercent = false)
     {
         $image_per = 100;
+
         list($width, $height, $type, $attr) = @getimagesize($this->imgFile);
-        if ($width > $imgwidth && $imgwidth > 0)
+        if (($width > $imgwidth || $overOneHundredPercent) && $imgwidth > 0)
             $image_per = (double)(($imgwidth * 100) / $width);
 
-        if (floor(($height * $image_per) / 100) > $imgheight && $imgheight > 0)
+        if ((floor(($height * $image_per) / 100) > $imgheight || $overOneHundredPercent) && $imgheight > 0)
             $image_per = (double)(($imgheight * 100) / $height);
 
         return $this->resizePercentage($image_per, $newfile);

@@ -180,7 +180,7 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
             $this->convertPngToJpg($resizeObject, $convertedFullImagePath);
         }
 
-        if ($resizeObject->resizeLimitwh($w, $h, $fullResizedImagePath) === false) {
+        if ($resizeObject->resizeLimitwh($w, $h, $fullResizedImagePath, $this->isOverOneHundredPercent()) === false) {
             return $resizeObject->error();
         }
         return true;
@@ -265,6 +265,15 @@ class Uni_Banner_Helper_Data extends Mage_Core_Helper_Abstract
             default:
                 throw new Exception('Unknown image type');
         }
+    }
+
+    /**
+     * @TODO Add in admin panel functionality to set it
+     * @return bool
+     */
+    public function isOverOneHundredPercent()
+    {
+        return false;
     }
 
     /**
